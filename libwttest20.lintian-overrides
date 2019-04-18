@@ -1,4 +1,4 @@
-libwttest18: conflicts-with-version witty (<< 3.1.0a-1~)
+libwttest20: conflicts-with-version witty (<< 3.1.0a-1~)
 
 # Providing symbols for C++ is a mess, ain't doing that
-libwttest18: no-symbols-control-file usr/lib/libwttest.so.3.3.11
+libwttest20: no-symbols-control-file usr/lib/libwttest.so.3.3.12
