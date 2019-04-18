@@ -7,21 +7,23 @@ environment-template-common: &environment-template-common
   DEBEMAIL: "toby@gobysoft.org"
   QUILT_PATCHES: debian/patches
   QUILT_REFRESH_ARGS: "-p ab --no-timestamps --no-index --strip-trailing-whitespace"
-  SOURCE_WORKING_DIRECTORY: "/root/package-src"
 
 environment-template-amd64: &environment-template-amd64
   TARGET_ARCH: "amd64"
   DEB_BUILD_OPTIONS: "parallel=4"
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
+  SOURCE_WORKING_DIRECTORY: "/root/package-src"
 
 environment-template-arm64: &environment-template-arm64
   TARGET_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4 nocheck"
+  SOURCE_WORKING_DIRECTORY: "/home/circleci/package-src"
   
 environment-template-armhf: &environment-template-armhf
   TARGET_ARCH: "armhf"
   DEB_BUILD_OPTIONS: "parallel=4 nocheck"
+  SOURCE_WORKING_DIRECTORY: "/home/circleci/package-src"
   
 environment-template-stretch: &environment-template-stretch
   DISTRO_RELEASE_CODENAME: "stretch"
@@ -121,6 +123,7 @@ job-template-amd64: &job-template-amd64
   
 job-template-cross: &job-template-cross
   <<: *job-template-amd64
+  working_directory: /home/circleci/debian
   steps:
     - checkout
     - run: *run-import-gpg
@@ -141,12 +144,13 @@ job-template-cross: &job-template-cross
     - run: &run-setup-pbuilder
         name: Create pbuilder chroot
         command: |
-          pbuilder-dist bionic arm64 create
+          sudo pbuilder-dist bionic arm64 create
     - run: &run-build-pbuilder
         name: Build the package
         command: |
           cd ${SOURCE_WORKING_DIRECTORY} &&
-          pbuilder-dist bionic arm64 build ../*.dsc --buildresult /root/deb
+          sudo mkdir -p /root/deb &&
+          sudo pbuilder-dist bionic arm64 build ../*.dsc --buildresult /root/deb
     - run: *run-store-for-artifacts
     - store_artifacts: *store
     - run: *remove-orig-source
