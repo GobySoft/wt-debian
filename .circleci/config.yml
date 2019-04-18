@@ -131,7 +131,17 @@ job-template-cross: &job-template-cross
         name: Make directories
         command: |
           sudo mkdir -p /root/deb /root/src
-    - attach-workspace: *attach-src-workspace
+    - run:
+        name: Install required packages
+        command: |          
+          apt-get update && apt-get -y install dpatch libwww-perl
+    - run:
+        name: Get original source tarball
+        command: |
+          cd .. &&
+          make -f debian/rules get-orig-source &&
+          mkdir -p /root/src &&
+          sudo mv ../*.orig.tar.gz /root/src
     - run: *run-extract-src
     - run: *run-nest-deb
     - run: *run-dch
@@ -170,7 +180,7 @@ workflows:
   version: 2
   commit:
     jobs:
-      - get-orig-source
+#      - get-orig-source
           
 #      - amd64-stretch-build:
 #          requires:
@@ -195,9 +205,7 @@ workflows:
 #      - amd64-bionic-build:
 #          requires:
 #            - get-orig-source
-      - arm64-bionic-build:
-           requires:
-            - get-orig-source
+      - arm64-bionic-build
       # - armhf-bionic-build:
       #     requires:
       #       - arm64-bionic-build
