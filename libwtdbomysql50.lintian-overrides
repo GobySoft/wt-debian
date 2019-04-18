@@ -1,0 +1,4 @@
+libwtdbomysql50: conflicts-with-version witty-dev (<< 3.1.0a-1~)
+
+# Providing symbols for C++ is a mess, ain't doing that
+libwtdbomysql50: no-symbols-control-file usr/lib/libwtdbomysql.so.3.3.12

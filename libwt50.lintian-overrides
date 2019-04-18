@@ -1,0 +1,10 @@
+libwt50: conflicts-with-version witty (<< 3.1.0a-1~)
+
+# Providing symbols for C++ is a mess, ain't doing that
+libwt50: no-symbols-control-file usr/lib/libwt.so.3.3.12
+
+# False dependency, received transitively
+libwt50: virtual-package-depends-without-real-package-depends depends: libgl1
+
+# Typo is in a comment in an XML file, unimportant
+libwt50: spelling-error-in-binary usr/lib/libwt.so.3.3.12 seperated separated

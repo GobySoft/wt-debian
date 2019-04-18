@@ -26,7 +26,7 @@ Breaks: witty (<< 3.1.0a-1~), libwt19
 Architecture: all
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
  libjs-jquery-jplayer, jquery-jplayer-bluemonday, fonts-font-awesome
-Recommends: libwt48 (= ${binary:Version})
+Recommends: libwt50 (= ${binary:Version})
 Description: C++ library and application server for web applications [common]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -34,7 +34,7 @@ Description: C++ library and application server for web applications [common]
  .
  This package contains only the Wt common files, such as config files, etc
 
-Package: libwt48
+Package: libwt50
 Provides: witty
 Replaces: witty (<< 3.1.0a-1~), libwt19
 Breaks: witty (<< 3.1.0a-1~), libwt19
@@ -42,8 +42,8 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends}, 
  libwt-common (>= 3.1.0a-1~)
 Recommends: tinymce (>= 3.0.7),
- libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: C++ library and application server for web applications [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -59,7 +59,7 @@ Replaces: witty-dev (<< 3.1.0a-1~)
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwt48 (= ${binary:Version}),
+ libwt50 (= ${binary:Version}),
  libboost-dev (>= 1.36.0), libboost-date-time-dev (>= 1.36.0),
  libssl-dev, libfcgi-dev, libboost-filesystem-dev (>= 1.36.0),
  libboost-regex-dev (>=1.36.0),
@@ -75,13 +75,13 @@ Description: C++ library and application server for web applications [developmen
  still need to install a connector, either the HTTP connector (libwthttp-dev), 
  the FastCGI connector (libwtfcgi-dev) or the test connector (libwttest-dev).
 
-Package: libwthttp48
+Package: libwthttp50
 Provides: witty
 Replaces: witty (<< 3.1.0a-1~)
 Breaks: witty (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends}, 
- libwt48 (= ${binary:Version})
+ libwt50 (= ${binary:Version})
 Description: HTTP(S) connector library for Wt [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -96,7 +96,7 @@ Replaces: witty-dev (<< 3.1.0a-1~)
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwthttp48 (= ${binary:Version}), libwt-dev (= ${binary:Version})
+ libwthttp50 (= ${binary:Version}), libwt-dev (= ${binary:Version})
 Description: HTTP(S) connector library for Wt [development]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -105,13 +105,13 @@ Description: HTTP(S) connector library for Wt [development]
  This package contains the development files for the Wt embedded HTTP server 
  connector library.
 
-Package: libwtfcgi48
+Package: libwtfcgi50
 Provides: witty
 Replaces: witty (<< 3.1.0a-1~)
 Breaks: witty (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwt48 (= ${binary:Version})
+ libwt50 (= ${binary:Version})
 Description: FastCGI connector library for Wt [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -125,7 +125,7 @@ Replaces: witty-dev (<< 3.1.0a-1~)
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtfcgi48 (= ${binary:Version}), libwt-dev (= ${binary:Version})
+ libwtfcgi50 (= ${binary:Version}), libwt-dev (= ${binary:Version})
 Description: FastCGI connector library for Wt [development]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -134,13 +134,13 @@ Description: FastCGI connector library for Wt [development]
  This package contains the development files for the Wt FastCGI connector 
  library.
 
-Package: libwttest18
+Package: libwttest20
 Provides: witty
 Replaces: witty (<< 3.1.0a-1~), libwt19
 Breaks: witty (<< 3.1.0a-1~), libwt19
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends}, 
- libwt48 (>= 3.1.0a-1~)
+ libwt50 (>= 3.1.0a-1~)
 Description: test connector library for Wt [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -154,7 +154,7 @@ Replaces: witty-dev (<< 3.1.0a-1~)
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwttest18 (= ${binary:Version}), libwt-dev (=${binary:Version})
+ libwttest20 (= ${binary:Version}), libwt-dev (=${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: test connector library for Wt [development]
@@ -165,15 +165,15 @@ Description: test connector library for Wt [development]
  This package contains the development files for the Wt test connector
  library.
 
-Package: libwtext48
+Package: libwtext50
 Provides: witty
 Replaces: witty (<< 3.1.0a-1~)
 Breaks: witty (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwt48 (= ${binary:Version})
-Recommends: libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwt50 (= ${binary:Version})
+Recommends: libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: additional widgets for Wt, based on ExtJS 2.0.x [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -187,7 +187,7 @@ Replaces: witty-dev (<< 3.1.0a-1~)
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtext48 (= ${binary:Version}), libwt-dev (= ${binary:Version})
+ libwtext50 (= ${binary:Version}), libwt-dev (= ${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: additional widgets for Wt, based on ExtJS 2.0.x [development]
@@ -197,15 +197,15 @@ Description: additional widgets for Wt, based on ExtJS 2.0.x [development]
  .
  This package contains the development files for the Wt ExtJS adapter library.
 
-Package: libwtdbo48
+Package: libwtdbo50
 Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwt48 (= ${binary:Version})
+ libwt50 (= ${binary:Version})
 Recommends:
- libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: Wt::Dbo ORM library for Wt [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -218,7 +218,7 @@ Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbo48 (= ${binary:Version}), libwt-dev (= ${binary:Version})
+ libwtdbo50 (= ${binary:Version}), libwt-dev (= ${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: Wt::Dbo ORM library for Wt [development]
@@ -229,14 +229,14 @@ Description: Wt::Dbo ORM library for Wt [development]
  This package contains the development files for the Wt::Dbo Object-Relational 
  Mapping library.
 
-Package: libwtdbosqlite48
+Package: libwtdbosqlite50
 Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbo48 (= ${binary:Version})
-Recommends: libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwtdbo50 (= ${binary:Version})
+Recommends: libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: sqlite3 backend for Wt::Dbo [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -249,7 +249,7 @@ Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbosqlite48 (= ${binary:Version}), libwtdbo-dev (= ${binary:Version})
+ libwtdbosqlite50 (= ${binary:Version}), libwtdbo-dev (= ${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: sqlite3 backend for Wt::Dbo [development]
@@ -260,14 +260,14 @@ Description: sqlite3 backend for Wt::Dbo [development]
  This package contains the development files for the Sqlite3 backend 
  for Wt::Dbo.
 
-Package: libwtdbopostgres48
+Package: libwtdbopostgres50
 Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbo48 (= ${binary:Version}), libpq5
-Recommends: libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwtdbo50 (= ${binary:Version}), libpq5
+Recommends: libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: PostgreSQL backend for Wt::Dbo [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -280,7 +280,7 @@ Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbopostgres48 (= ${binary:Version}), libwtdbo-dev (= ${binary:Version})
+ libwtdbopostgres50 (= ${binary:Version}), libwtdbo-dev (= ${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: PostgreSQL backend for Wt::Dbo [development]
@@ -291,14 +291,14 @@ Description: PostgreSQL backend for Wt::Dbo [development]
  This package contains the development files for the PostgreSQL backend 
  for Wt::Dbo.
 
-Package: libwtdbofirebird48
+Package: libwtdbofirebird50
 Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbo48 (= ${binary:Version})
-Recommends: libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwtdbo50 (= ${binary:Version})
+Recommends: libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: Firebird backend for Wt::Dbo [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -311,7 +311,7 @@ Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbofirebird48 (= ${binary:Version}), libwtdbo-dev (= ${binary:Version})
+ libwtdbofirebird50 (= ${binary:Version}), libwtdbo-dev (= ${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: Firebird backend for Wt::Dbo [development]
@@ -322,14 +322,14 @@ Description: Firebird backend for Wt::Dbo [development]
  This package contains the development files for the Firebird backend 
  for Wt::Dbo.
 
-Package: libwtdbomysql48
+Package: libwtdbomysql50
 Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbo48 (= ${binary:Version})
-Recommends: libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version})
+ libwtdbo50 (= ${binary:Version})
+Recommends: libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version})
 Description: MySQL/MariaDB backend for Wt::Dbo [runtime]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -342,7 +342,7 @@ Provides: witty-dev
 Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libwtdbomysql48 (= ${binary:Version}), libwtdbo-dev (=
+ libwtdbomysql50 (= ${binary:Version}), libwtdbo-dev (=
  ${binary:Version})
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
@@ -360,10 +360,10 @@ Replaces: witty-dbg (<< 3.1.0a-1~)
 Breaks: witty-dbg (<< 3.1.0a-1~)
 Architecture: any
 Section: debug
-Depends: ${misc:Depends}, libwt48 (= ${binary:Version}), 
- libwthttp48 (= ${binary:Version}) | libwtfcgi48 (= ${binary:Version}) |
- libwttest18 (= ${binary:Version}), libwtext48 (= ${binary:Version}),
- libwtdbo48 (= ${binary:Version}), libwtdbosqlite48 (= ${binary:Version})
+Depends: ${misc:Depends}, libwt50 (= ${binary:Version}), 
+ libwthttp50 (= ${binary:Version}) | libwtfcgi50 (= ${binary:Version}) |
+ libwttest20 (= ${binary:Version}), libwtext50 (= ${binary:Version}),
+ libwtdbo50 (= ${binary:Version}), libwtdbosqlite50 (= ${binary:Version})
 Description: C++ library and application server for web applications [debug]
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric
@@ -393,8 +393,8 @@ Description: C++ library and application server for web applications [doc]
 
 Package: witty-examples
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libwthttp48, libwtext48,
- libwtdbosqlite48, libboost-program-options-dev, libqt4-dev
+Depends: ${shlibs:Depends}, ${misc:Depends}, libwthttp50, libwtext50,
+ libwtdbosqlite50, libboost-program-options-dev, libqt4-dev
 Suggests: libwt-doc, witty-dev
 Description: C++ library for webapps [examples]
  Wt (pronounced 'witty') is a C++ library and application server for
@@ -406,9 +406,9 @@ Description: C++ library for webapps [examples]
 
 Package: witty
 Architecture: all
-Depends: ${misc:Depends}, libwt48, libwthttp48 | libwtfcgi48 | libwttest18, 
- libwtext48, libwtdbo48, libwtdbosqlite48, libwtdbopostgres48, 
- libwtdbofirebird48, witty-examples
+Depends: ${misc:Depends}, libwt50, libwthttp50 | libwtfcgi50 | libwttest20, 
+ libwtext50, libwtdbo50, libwtdbosqlite50, libwtdbopostgres50, 
+ libwtdbofirebird50, witty-examples
 Description: C++ library for webapps [runtime] (transition package)
  Wt (pronounced 'witty') is a C++ library and application server for
  developing and deploying web applications. The API is widget-centric

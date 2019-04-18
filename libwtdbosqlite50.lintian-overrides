@@ -1,0 +1,7 @@
+# Provide nice name for package and follow same naming patter as for the other Wt::DBO packages
+libwtdbosqlite50: package-name-doesnt-match-sonames libwtdbosqlite3-48
+
+libwtdbosqlite50: conflicts-with-version witty-dev (<< 3.1.0a-1~)
+
+# Providing symbols for C++ is a mess, ain't doing that
+libwtdbosqlite50: no-symbols-control-file usr/lib/libwtdbosqlite3.so.3.3.12

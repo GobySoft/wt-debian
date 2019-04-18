@@ -1,0 +1,4 @@
+libwtfcgi50: conflicts-with-version witty (<< 3.1.0a-1~)
+
+# Providing symbols for C++ is a mess, ain't doing that
+libwtfcgi50: no-symbols-control-file usr/lib/libwtfcgi.so.3.3.12
