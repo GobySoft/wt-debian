@@ -179,7 +179,7 @@ build-resources:
 	touch $@
 
 get-orig-source:
-	$(CURDIR)/debian/get-orig-source.sh
+	uscan --verbose
 
 clean: unpatch
 	rm -rf build-static
