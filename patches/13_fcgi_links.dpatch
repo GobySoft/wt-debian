@@ -1,0 +1,30 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 13_fcgi_links.dpatch by Toby Schneider <tes.aubergine@gmail.com>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' witty-3.3.11+dfsg~/src/CMakeLists.txt witty-3.3.11+dfsg/src/CMakeLists.txt
+--- witty-3.3.11+dfsg~/src/CMakeLists.txt	2018-10-22 22:25:31.000000000 -0400
++++ witty-3.3.11+dfsg/src/CMakeLists.txt	2018-10-22 22:29:55.028774285 -0400
+@@ -473,6 +473,7 @@
+       wt
+     PRIVATE
+       ${RT_LIBRARY}
++      ${CMAKE_THREAD_LIBS_INIT}
+       )
+ 
+   INSTALL(TARGETS wttest
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' witty-3.3.11+dfsg~/src/fcgi/CMakeLists.txt witty-3.3.11+dfsg/src/fcgi/CMakeLists.txt
+--- witty-3.3.11+dfsg~/src/fcgi/CMakeLists.txt	2018-10-22 22:25:31.000000000 -0400
++++ witty-3.3.11+dfsg/src/fcgi/CMakeLists.txt	2018-10-22 22:25:31.000000000 -0400
+@@ -17,7 +17,7 @@
+ 
+     INCLUDE_DIRECTORIES(${FCGI_INCLUDE_DIRS})
+     ADD_LIBRARY(wtfcgi ${libfcgisources})
+-    TARGET_LINK_LIBRARIES(wtfcgi wt ${FCGI_LIB} ${FCGIPP_LIB})
++    TARGET_LINK_LIBRARIES(wtfcgi wt ${FCGI_LIB} ${FCGIPP_LIB} ${CMAKE_THREAD_LIBS_INIT} ${SSL_LIBRARIES})
+ 
+     SET_TARGET_PROPERTIES(
+       wtfcgi

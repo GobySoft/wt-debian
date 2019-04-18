@@ -1,0 +1,225 @@
+# /usr/lib seems the only proper place for examples. Qt packages are also doing that.
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/blog/css/comment.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/blog/css/comment_edit.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/blog/css/rss.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/chart3D/cross.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/chart3D/diamond.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/composer/icons/paperclip.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/dragdrop/icons/blue-pill-small.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/dragdrop/icons/blue-pill.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/dragdrop/icons/red-pill-small.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/dragdrop/icons/red-pill.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/auth2/css/oauth-google.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/video/sintel_trailer.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/filetreetable/icons/document.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/filetreetable/icons/yellow-folder-closed.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/filetreetable/icons/yellow-folder-open.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/form/icons/invalid.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/gitmodel/icons/git-blob.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/gitmodel/icons/git-tree.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/simplechat/icons/maximize.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/simplechat/icons/minimize.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/document.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/line-last.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/line-middle.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/line-trunk.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/nav-minus-line-last.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/nav-minus-line-middle.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/nav-plus-line-last.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/nav-plus-line-middle.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/yellow-folder-closed.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treelist/icons/yellow-folder-open.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview-dragdrop/icons/file.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview-dragdrop/icons/folder.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/cloudy01.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/flag_be.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/flag_fr.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/flag_ma.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/flag_sp.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/rain.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/snow.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/storm.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/sun01.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/treeview/icons/w_cloud.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/webgl/nowebgl.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/webgl/texture.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/Papa.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/Pennant_One.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/blue-pill-small.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/blue-pill.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/cloudy01.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/emweb.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/flag_be.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/flag_fr.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/flag_ma.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/flag_sp.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/git-blob.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/git-tree.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/house.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/rain.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/red-pill-small.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/red-pill.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/snow.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/storm.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/sun01.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/w_cloud.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/wt_powered.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/yellow-folder-closed.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/icons/yellow-folder-open.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/WPainter.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/categoricalChartScreenshot.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/emweb_small.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/list-models.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/model-view.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/modelview.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/numericalChartScreenshot.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/sintel_trailer.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/table-models.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/docroot/pics/tree-models.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/Papa.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/Pennant_One.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/blue-pill-small.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/blue-pill.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/cloudy01.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/emweb.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/flag_be.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/flag_fr.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/flag_ma.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/flag_sp.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/house.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/rain.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/red-pill-small.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/red-pill.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/snow.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/storm.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/sun01.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/w_cloud.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/wt_powered.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/yellow-folder-closed.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/icons/yellow-folder-open.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/pics/emweb_small.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/widgetgallery/pics/sintel_trailer.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/emweb_large.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/emweb_powered.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/emweb_small.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/main_page_banner_small.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/main_page_banner_small2.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/old_wt_banner.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/wt_banner.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/wt_banner_right.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/emweb_large.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/emweb_powered.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/emweb_small.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/main_page_banner.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/main_page_banner_small.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/main_page_banner_small2.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/uiloog.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/wt_banner.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/wt_banner_right.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/wt_powered.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/clojure-logo.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/cpp-logo.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/cppclass.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/document.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/green-play.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/invalid.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/java-logo.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/javaclass.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/orange-play.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/package-folder-open.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/package.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/rss.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/ruby-logo-R.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/yellow-folder-closed.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/yellow-folder-open.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/icons/jython-logo.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/blog/css/oauth-google.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/auth1/css/oauth-facebook.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/auth2/css/oauth-facebook.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/auth1/css/oauth-google.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/mediaplayer/sintel_trailer.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/feature/oauth/css/oauth-google.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/css/oauth-google.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman0.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman1.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman2.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman3.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman4.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman5.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman6.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman7.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman8.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangman9.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/hangman/icons/hangmanhurray.jpg
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/qrlogin/css/QRcode.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/qrlogin/css/oauth-google.png
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/tab_b.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/tab_l.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/jwt/tab_r.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/tab_b.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/tab_l.gif
+witty-examples: image-file-in-usr-lib usr/lib/Wt/examples/wt-homepage/css/wt/tab_r.gif
+witty-examples: arch-dep-package-has-big-usr-share
+
+# Symlink is not broken but target is provided by another package (proper depends in place)
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/blog/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/charts/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/chart3D/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/codeview/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/composer/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/dialog/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/dragdrop/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/auth1/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/auth2/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/broadcast/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/client-ssl-auth/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/dbo/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/locale/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/mediaplayer/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/miniwebgl/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/multiple_servers/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/oauth/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/paypal/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/serverpush/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/socketnotifier/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/suggestionpopup/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/video/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/feature/widgetset/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/filetreetable/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/form/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/gitmodel/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/hangman/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/hello/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/javascript/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/mandelbrot/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/mission/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/onethread/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/painting/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/planner/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/qrlogin/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/simplechat/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/style/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/treelist/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/treeview-dragdrop/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/treeview/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/webgl/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/widgetgallery/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/wt-homepage/resources ../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/widgetgallery/docroot/resources ../../../../../share/Wt/resources
+witty-examples: package-contains-broken-symlink usr/lib/Wt/examples/wtwithqt/resources ../../../../share/Wt/resources
+
+# Debian bug #736360 and https://lists.debian.org/debian-mentors/2012/11/msg00310.html
+witty-examples: embedded-javascript-library usr/share/doc/witty-examples/html/jquery.js
+
+# Actual URL is http://localhost/wt/examples/simplechat/chat.js?div=chat and chat.js is dynamically generated by Wt
+# Lintian is confusing http://localhost with http://www.webtoolkit.eu
+witty-examples: privacy-breach-generic usr/lib/Wt/examples/wt-homepage/wt-home_cn.xml www.webtoolkit.eu/wt/examples/simplechat/chat.js?div=chat
+witty-examples: privacy-breach-generic usr/lib/Wt/examples/wt-homepage/wt-home_cn.xml http://www.webtoolkit.eu/wt/examples/simplechat/chat.js?div=chat
+witty-examples: privacy-breach-generic usr/lib/Wt/examples/wt-homepage/wt-home_ru.xml www.webtoolkit.eu/wt/examples/simplechat/chat.js?div=chat
+witty-examples: privacy-breach-generic usr/lib/Wt/examples/wt-homepage/wt-home_ru.xml http://www.webtoolkit.eu/wt/examples/simplechat/chat.js?div=chat
+witty-examples: privacy-breach-generic usr/lib/Wt/examples/wt-homepage/wt-home.xml www.webtoolkit.eu/wt/examples/simplechat/chat.js?div=chat
+
+# These examples apparently do not contain any fortifiable syscall, thus the false positive
+witty-examples: hardening-no-fortify-functions usr/lib/Wt/examples/gitmodel/gitview.wt
+witty-examples: hardening-no-fortify-functions usr/lib/Wt/examples/feature/socketnotifier/socketnotifier.wt

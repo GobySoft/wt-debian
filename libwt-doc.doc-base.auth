@@ -1,0 +1,13 @@
+Document: hands-on-wt-auth
+Title: A hands-on introduction to Wt::Auth
+Author: Koen Deforche
+Abstract: In this tutorial, we use an example as a hands-on introduction to the
+ Wt::Auth module, which provides authentication features for Wt webapps.
+Section: Web Development
+
+Format: html
+Index: /usr/share/doc/libwt-doc/tutorial/auth.html
+Files: /usr/share/doc/libwt-doc/tutorial/auth.html
+
+Format: text
+Files: /usr/share/doc/libwt-doc/tutorial/auth.doc

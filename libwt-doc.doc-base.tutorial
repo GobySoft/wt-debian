@@ -1,0 +1,13 @@
+Document: hands-on-wt
+Title: A hands-on introduction to Wt
+Author: Pieter Libin, Koen Deforche, Wim Dumon
+Abstract: This is an introductory tutorial that shows how to develop 
+ web applications using the Wt libraries and application server.
+Section: Web Development
+
+Format: html
+Index: /usr/share/doc/libwt-doc/tutorial/wt.html
+Files: /usr/share/doc/libwt-doc/tutorial/wt.html
+
+Format: text
+Files: /usr/share/doc/libwt-doc/tutorial/wt.doc

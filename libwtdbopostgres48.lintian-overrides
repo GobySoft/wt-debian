@@ -1,0 +1,4 @@
+libwtdbopostgres48: conflicts-with-version witty-dev (<< 3.1.0a-1~)
+
+# Providing symbols for C++ is a mess, ain't doing that
+libwtdbopostgres48: no-symbols-control-file usr/lib/libwtdbopostgres.so.3.3.11

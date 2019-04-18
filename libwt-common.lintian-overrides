@@ -1,0 +1,9 @@
+libwt-common: conflicts-with-version witty (<< 3.1.0a-1~)
+#libwt-common: duplicate-font-file usr/share/Wt/resources/font-awesome/font/fontawesome-webfont.ttf also in fonts-font-awesome
+#libwt-common: duplicate-font-file usr/share/Wt/resources/font-awesome/font/FontAwesome.otf also in fonts-font-awesome
+
+# Symlinks are not broken, they are provided by another package (proper depends in place)
+libwt-common: package-contains-broken-symlink usr/share/Wt/resources/font-awesome ../../fonts-font-awesome
+libwt-common: package-contains-broken-symlink usr/share/Wt/resources/jPlayer/Jplayer.swf ../../../javascript/jquery-jplayer/Jplayer.swf
+libwt-common: package-contains-broken-symlink usr/share/Wt/resources/jPlayer/skin ../../../javascript/jquery-jplayer/skins/blue.monday
+libwt-common: package-contains-broken-symlink usr/share/Wt/resources/tiny_mce ../../tinymce/www

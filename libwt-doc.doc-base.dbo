@@ -1,0 +1,14 @@
+Document: hands-on-wt-dbo
+Title: A hands-on introduction to Wt::Dbo
+Author: Koen Deforche
+Abstract: Wt::Dbo is an object-relational mapping library distributed with Wt.
+ This is an introductory tutorial that shows how to develop 
+ a simple blogging CMS
+Section: Web Development
+
+Format: html
+Index: /usr/share/doc/libwt-doc/tutorial/dbo.html
+Files: /usr/share/doc/libwt-doc/tutorial/dbo.html
+
+Format: text
+Files: /usr/share/doc/libwt-doc/tutorial/dbo.doc

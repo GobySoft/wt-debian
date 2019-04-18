@@ -1,0 +1,319 @@
+PACKAGES
+
+In the Wt 2.x package series, you had to install all the development libraries
+or none of them. In the Wt 3.x packages, libraries are split in several 
+packages:
+
+ * libwt-common (configuration files)
+ * libwt-dev (core development libraries and include files)
+ * libwthttp-dev (HTTP connector, the application is the web server)
+ * libwtfcgi-dev (FastCGI connector, the  application will be served through 
+   a web server such as Apache)
+ * libwtext-dev (additional widgets using ExtJS 2.0)
+ * libwtdbo-dev (Wt::Dbo ORM)
+ * libwtdbosqlite-dev (Wt::Dbo sqlite3 backend)
+ * libwtdbopostgres-dev (Wt::Dbo PostgreSQL backend)
+
+
+
+STATIC/SHARED LIBRARIES
+
+For Wt 2.x, the Debian packages installed only shared libraries. 
+
+Since Wt 3.x, the -dev packages install shared and static libraries.
+
+
+
+EXAMPLES
+
+Running the examples
+====================
+
+The examples are available in binary and source form in the witty-examples
+package and are installed in source and binary form to /usr/lib/Wt/examples.
+
+For instance, to run the bobsmith example:
+
+$ cd /usr/lib/Wt/examples/bobsmith
+$ ./bobsmith.wt --docroot . --http-addr 0.0.0.0 --http-port 8080
+
+Additionally, a wrapper script is provided so that you can run examples 
+specifying any parameter. They will be started in port 8080:
+
+$ /usr/lib/Wt/examples/bobsmith/bobsmith
+
+
+Building the examples
+=====================
+
+First of all, make sure you have installed *all* the -dev packages and also
+the witty-examples package, which contains the source. 
+
+Keep in mind different examples depend on different -dev packages. If 
+you want to build all the examples, you will need *all* the development 
+packages and libqt4-dev (for the wtwithqt bridge)
+
+To build the examples, create a build directory and call CMake like this:
+
+$ cmake -DWT_SOURCE_DIR=/usr/lib/Wt \
+        -DEXAMPLES_CONNECTOR="wt;wthttp" \
+        -DCMAKE_BUILD_TYPE=Release \
+        /usr/lib/Wt/examples
+$ make
+
+Then go to /usr/lib/Wt/examples and enter the directory of the 
+example you want to run. When running the example, set the docroot to "." 
+
+For instance, if you compiled the examples in /home/user/dev/wtexamples, you would do:
+
+$ mkdir /home/user/dev/wtexamples
+$ cd /home/user/dev/wtexamples
+$ cmake -DWT_SOURCE_DIR=/usr/lib/Wt \
+        -DEXAMPLES_CONNECTOR="wt;wthttp" \
+        -DCMAKE_BUILD_TYPE=Release \
+        /usr/lib/Wt/examples
+$ make
+$ cd /usr/lib/Wt/examples/gitmodel
+$ /home/user/dev/wtexamples/gitmodel/gitview.wt \
+           --http-port 8080 \
+           --http-addr 0.0.0.0 \
+           --docroot .
+
+Important:
+
+* The wt-homepage example will not run properly unless you download
+  ExtJS 2.0 and extract it the proper place. See 
+  /usr/share/doc/libwt-doc/reference/html/group__ext.html#_details to find
+  out where to download ExtJS 2.0 from.
+
+* Take a look at the console output, particularly to the 404 errors: those 
+  are files which the webapp did not find (resources, icons, etc) 
+
+* The wtwithqt example needs Qt 4.x to run
+
+
+
+TESTS
+
+To build the tests, call CMake like this:
+
+$ cmake -DWT_SOURCE_DIR=/usr/share/doc/libwt-doc \ 
+      -DCMAKE_BUILD_TYPE=Release /usr/share/doc/libwt-doc/test/
+$ make
+
+
+
+HOW TO START/STOP WT WEBAPPS
+
+Let's start with some facts:
+- the Wt webapp needs to be launched somehow
+- in the general case (production), it will be started automatically
+- wtfcgi requires a /var/run/wt directory, wthttp does not
+
+
+Case 1: wthttp webapp
+=====================
+
+There are three subcases here:
+
+
+1.1 wthttp webapp started by init/upstart
+-----------------------------------------
+
+Create an init script or upstart job to start the webapp.
+
+You do not need to create /var/run/wt
+
+It is recommended that the init script or upstart job starts the 
+webapp as the www-data user and group.
+
+
+
+1.2 wthttp webapp started by inetd
+----------------------------------
+
+Inetd starts services on demand. 
+
+You do not need to write any script.
+
+When the requests are spaced enough in time, no active instance of your webapp 
+will be running, therefore there is a small loading delay. You should take 
+this into account. 
+
+The delay is smaller for statically-compiled webapps, because there is no need 
+to look for dynamic libraries and resolve symbols on load.
+
+
+
+1.3 HTTP server forwarding to wthttp webapp
+-------------------------------------------
+
+This is like case 2.1
+
+
+
+Case 2: wtfcgi webapp
+=====================
+
+There are two subcases here, although the second one is very uncommon
+
+
+2.1 wtfcgi webapp started by a web server
+-----------------------------------------
+
+You will need to write an init script. See below for the explanation.
+
+This init script must create /var/run/wt and set the proper permissions. 
+The recommended settings are making www-data owner of that directory (both 
+user and group).
+
+Make sure /var/run/wt is ready when the web server is started, otherwise 
+there might be a race condition (the webserver receives a request and starts 
+your wtfcgi webapp but /var/run/wt does not exist yet, therefore wtfcgi fails).
+To avoid that:
+- If using an init script, it should be run before or at the same time as the 
+  web server. For instance, Apache 2 is S91.
+- If using an upstart job, set the dependency on your web server
+
+Why is an init script required for creating /var/run/wt? Because only root can 
+write to /var/run
+
+But I can create /var/run/wt and it will be there forever! No, it will not. 
+The Filesystem Hierarchy Standard mandates that /var/run be entirely cleaned on boot.
+
+
+
+2.2 wtfcgi webapp started by cgi-fcgi
+-------------------------------------
+
+Unless your hosting server has a very strange policy, this scenario should 
+never happen in production environments.
+
+The cgi-fcgi tool makes possible to start FastCGI applications from the 
+command line. See the mention of the 'cgi-fcgi' tool in
+http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html#FastCgiExternalServer
+
+This case is almost the same as 2.1. The only difference is you will need to 
+make /var/run/wt available before cgi-fcgi (that would be in turn run by some 
+other script your host provider mandates) starts the wtfcgi webapp.
+
+
+
+
+APPENDIX A Init script sample for wthttp webapp (case 1.1)
+
+
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          mywebapp
+# Required-Start:    $remote_fs $syslog $network $named $time
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start mywebapp at boot time
+# Description:       Enable service provided by mywebapp.
+### END INIT INFO
+
+# /etc/init.d/mywebapp
+#
+# Written by Pau Garcia i Quiles <pgquiles@elpauer.org>
+
+set -e
+
+if [ ! -f /etc/elpauer/mywebapp.conf ] ; then
+    exit 0
+fi
+
+DAEMON=/opt/elpauer/mywebapp/bin/mywebapp.wt
+NAME=mywebapp.wt
+
+test -x $DAEMON || exit 0
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_begin_msg "Starting MyWebApp server: $NAME"
+    [ -d /var/run/mywebapp ] || mkdir -p /var/run/mywebapp
+    start-stop-daemon --background -m --pidfile /var/run/mywebapp/mywebapp.pid --exec $DAEMON -c www-data:www-data --start -- --docroot /opt/elpauer/mywebapp/share --http-addr 0.0.0.0 --http-port 80 && log_end_msg 0 || log_end_msg 1
+    ;;
+  stop)
+    log_begin_msg "Stopping MyWebApp server: $NAME"
+    start-stop-daemon --stop --pidfile /var/run/mywebapp/mywebapp.pid --oknodo --exec $DAEMON && log_end_msg 0 || log_end_msg 1
+    rm -f /var/run/mywebapp/mywebapp.pid
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  reload|force-reload)
+    log_begin_msg "Reloading $NAME configuration files"
+    start-stop-daemon --stop --pidfile/var/run/mywebapp/mywebapp.pid --signal 1 --exec $DAEMON && log_end_msg 0 || log_end_msg 1
+    ;;
+  *)
+    log_success_msg "Usage: /etc/init.d/$NAME {start|stop|restart|reload}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
+
+
+
+APPENDIX B Init script sample for wtfcgi webapp
+
+
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          mywebapp
+# Required-Start:    $remote_fs $syslog $network $named $time
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Start-Before:    apache2
+# Short-Description: Start mywebapp at boot time
+# Description:       Enable service provided by mywebapp.
+### END INIT INFO
+
+# /etc/init.d/mywebapp
+#
+# Written by Pau Garcia i Quiles <pgquiles@elpauer.org>
+
+set -e
+
+if [ ! -f /etc/elpauer/mywebapp.conf ] ; then
+    exit 0
+fi
+
+DAEMON=/opt/elpauer/mywebapp/bin/mywebapp.fcgi
+NAME=mywebapp.fcgi
+
+test -x $DAEMON || exit 0
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_begin_msg "Creating /var/run/wt required by MyWebApp: $NAME"
+    [ -d /var/run/wt ] || mkdir -p /var/run/wt
+    ;;
+  stop)
+    log_begin_msg "Removing /var/run/wt required by MyWebApp: $NAME"
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  *)
+    log_success_msg "Usage: /etc/init.d/$NAME {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
+
+APPENDIX C Upstart job
+
+No sample provided, see http://upstart.ubuntu.com/cookbook/#run-a-job-as-a-different-user

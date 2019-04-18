@@ -1,0 +1,265 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Files-Excluded: doc/tutorial/asciidoc.js
+ examples/codeview/prettify/prettify.min.js
+ resources/font-awesome/*
+ resources/jPlayer/*
+ src/3rdparty/glew-1.10.0/*
+ src/js/*.min.js
+ src/web/skeleton/*.min.js
+ src/web/skeleton/jquery.js
+ src/Wt/Dbo/backend/amalgamation/*
+ resources/WtSoundManager.swf
+ doc/reference/wt.qch
+ doc/reference/html/*
+ doc/examples/html/*
+ doc/tutorial/wt.html
+ doc/tutorial/dbo.html
+ doc/tutorial/auth.html
+ examples/codeview/prettify/prettify.min.js
+
+Files:*
+Copyright: 2005-2016 emweb bvba
+Upstream-Name: Wt
+Upstream-Contact: Koen Deforche <koen@emweb.be>
+                  Wim Dumon <wim@emweb.be>
+                  Pieter Libin <pieter@emweb.be>
+Source: https://github.com/emweb/wt
+Comment: This package was debianized by Pau Garcia Quiles <pgquiles@elpauer.org>
+         on Sat, 05 Jul 2008 10:37:30 +0100
+License: GPL-2 with OpenSSL exception or Commercial
+   In addition to the license terms of the GNU General Public License,
+   Version 2, as copied below, Emweb bvba gives permission to link the
+   code of its release of Wt with the OpenSSL project's "OpenSSL" library
+   (or with modified versions of it that use the same license as the
+   "OpenSSL" library), and distribute the linked executables. You must
+   obey the GNU General Public License in all respects for all of the
+   code used other than "OpenSSL". If you modify this file, you may
+   extend this exception to your version of the file, but you are not
+   obligated to do so. If you do not wish to do so, delete this exception
+   statement from your version.
+   .
+   Wt is licensed under the GNU GPL Version 2. Other versions of the GPL do
+   not apply.
+   .
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   .
+   You should have received a copy of the GNU General Public License
+   along with this package; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+   .
+   On Debian systems, the complete text of the GNU General
+   Public License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+   .
+   In addition to the license terms of the GNU General Public License,
+   Version 2, as copied below, Emweb bvba gives permission to link the
+   code of its release of Wt with the OpenSSL project's "OpenSSL" library
+   (or with modified versions of it that use the same license as the
+   "OpenSSL" library), and distribute the linked executables. You must
+   obey the GNU General Public License in all respects for all of the
+   code used other than "OpenSSL". If you modify this file, you may
+   extend this exception to your version of the file, but you are not
+   obligated to do so. If you do not wish to do so, delete this exception
+   statement from your version."
+   .
+   DEVELOPER-BASED COMMERCIAL LICENSE TERMS
+   .
+   Each developer which uses the Wt API requires a Commercial License during
+   the entire development and maintenance period of the web application. The
+   Developer-based Commercial Licenses are valid for the duration of one year,
+   and for any released version of Wt.
+   .
+   There are no additional charges for distribution of the application, and the
+   license allows the developer to work on an unlimited number of products.
+   .
+   The license may not be passed on between developers, unless permission is
+   granted by Emweb.
+   .
+   Commercial licensed developers have access to the public community-driven
+   mailing list for their support questions. A commercial license does not
+   include guaranteed responses from Emweb's Wt developers, nor training. For
+   support contracts, please consult our support offerings.
+   .
+   PROJECT-BASED COMMERCIAL LICENSE TERMS
+   .
+   As an alternative to the Developer-based Commercial License, a License may
+   be purchased on a per-project basis. This License allows the usage of Wt by
+   as many developers as necessary to complete a single pre-defined project.
+   .
+   There are usually no additional charges for distribution of the application.
+   .
+   Support options are usually negotiated together with the license. This
+   guarantees, if required, personalized high-priority support in addition to
+   the public, community-driven mailing lists.
+
+
+Files: src/3rdparty/rapidxml/*
+Copyright: 2006, 2007 Marcin Kalicinski
+           2014 emweb bvba
+Comment: fork of RapidXML 1.13
+License: BSL or MIT
+
+License: BSL
+   Boost Software License 1.0
+   .
+   Permission is hereby granted, free of charge, to any person or organization
+   obtaining a copy of the software and accompanying documentation covered by
+   this license (the "Software") to use, reproduce, display, distribute,
+   execute, and transmit the Software, and to prepare derivative works of the
+   Software, and to permit third-parties to whom the Software is furnished to
+   do so, all subject to the following:
+   .
+   The copyright notices in the Software and this entire statement, including
+   the above license grant, this restriction and the following disclaimer,
+   must be included in all copies of the Software, in whole or in part, and
+   all derivative works of the Software, unless such copies or derivative
+   works are solely in the form of machine-executable object code generated by
+   a source language processor.
+   .
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+   SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+   FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+   ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+
+License: MIT
+   The MIT License (MIT)
+   .
+   Copyright (c) 2007 John Resig
+   .
+   Permission is hereby granted, free of charge, to any person obtaining a 
+   copy of this software and associated documentation files (the "Software"), 
+   to deal in the Software without restriction, including without limitation 
+   the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+   and/or sell copies of the Software, and to permit persons to whom the 
+   Software is furnished to do so, subject to the following conditions:
+   .
+   The above copyright notice and this permission notice shall be included 
+   in all copies or substantial portions of the Software.
+   .
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+   DEALINGS IN THE SOFTWARE.
+
+Files: src/http/*
+Copyright: 2003-2006 Christopher M. Kohlhoff
+           2008-2016 Emweb bvba
+License: BSL
+
+Files: src/web/random_device.cpp
+Copyright: 2000 Jens Maurer
+License: BSL
+
+Files: examples/wtwithqt/*
+Copyright: 2008-2016 Emweb bbva
+License: Expat
+   Permission is hereby granted, free of charge, to any person obtaining a 
+   copy of this software and associated documentation files (the "Software"), 
+   to deal in the Software without restriction, including without limitation 
+   the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+   and/or sell copies of the Software, and to permit persons to whom the 
+   Software is furnished to do so, subject to the following conditions:
+   .
+   The above copyright notice and this permission notice shall be included 
+   in all copies or substantial portions of the Software.
+   .
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+   DEALINGS IN THE SOFTWARE. 
+
+Files: src/web/skeleton/Wt.*js
+Copyright: John Resig
+Comment: only the 'arrayRemove' function (jQuery Array Remove plugin)
+License: MIT
+
+Files: src/web/skeleton/Wt.*js
+Copyright: 2009 Matt Zabriskie
+Comment: includes the jQuery Caret Range plugin
+License: MIT or GPL-2
+
+License: GPL-2
+   Wt is licensed under the GNU GPL Version 2. Other versions of the GPL do
+   not apply.
+   .
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   .
+   You should have received a copy of the GNU General Public License
+   along with this package; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+   .
+   On Debian systems, the complete text of the GNU General
+   Public License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+Files: src/web/skeleton/Wt.*js
+Copyright: 2008 Yahoo! Inc
+Comment: Wt.js contains a simplified version of code developed by Yahoo
+License: BSD-3-clause
+
+License: BSD-3-clause
+  Copyright (c) 2007-2016 Pau Garcia Quiles <pgquiles@elpauer.org
+  Copyright (c) 2008-2016 emweb bvba 
+  All rights reserved
+  .  
+  Redistribution and use in source and binary forms, with or without 
+  modification, are permitted provided that the following conditions are met:
+  1. Redistributions of source code must retain the above copyright notice, 
+     this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright notice, 
+     this list of conditions and the following disclaimer in the documentation 
+     and/or other materials provided with the distribution.
+  3. Neither the name of the copyright holder nor the names of its contributors 
+     may be used to endorse or promote products derived from this software 
+     without specific prior written permission.
+  .
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS  "AS IS" 
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF 
+  THE POSSIBILITY OF SUCH DAMAGE. 
+
+Files: cmake/FindWt.cmake
+Copyright: 2007-2016 Pau Garcia Quiles <pgquiles@elpauer.org>
+           2008-2016 emweb bvba
+License: BSD-3-clause
+
+Files: src/web/base64.h
+Copyright: 2002 Ryan Petrie <ryanpetrie@netscape.net>
+License: Zlib
+  zlib License
+  .
+  This software is provided 'as-is', without any express or implied warranty.
+  In no event will the authors be held liable for any damages arising from 
+  the use of this software.
+  .
+  Permission is granted to anyone to use this software for any purpose, 
+  including commercial applications, and to alter it and redistribute it 
+  freely, subject to the following restrictions:
+  .
+  1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+Files: debian/*
+Copyright: 2007-2016 Pau Garcia Quiles <pgquiles@elpauer.org>
+License: GPL-2

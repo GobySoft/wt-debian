@@ -1,0 +1,3 @@
+usr/lib/libwttest.a
+usr/lib/libwttest.so
+usr/include/Wt/Test/*

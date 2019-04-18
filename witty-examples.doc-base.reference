@@ -1,0 +1,9 @@
+Document: libwt-examples-reference
+Title: Wt examples online documentation
+Author: Emweb bvba
+Abstract: This set of documents provides help for the examples bundled with Wt
+Section: Web Development
+
+Format: html
+Index: /usr/share/doc/witty-examples/html/index.html
+Files: /usr/share/doc/witty-examples/html/*.html

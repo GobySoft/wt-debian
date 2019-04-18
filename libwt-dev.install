@@ -1,0 +1,14 @@
+usr/lib/libwt.a
+usr/lib/libwt.so
+usr/include/Wt/Auth/*
+usr/include/Wt/Chart/*
+usr/include/Wt/Http/*
+usr/include/Wt/Json/*
+usr/include/Wt/Mail/*
+usr/include/Wt/Payment/*
+usr/include/Wt/Render/*
+usr/include/Wt/W*
+usr/include/Wt/DomElement.h
+usr/include/Wt/EscapeOStream.h
+#usr/include/Wt/SyncLock
+usr/include/Wt/Utils

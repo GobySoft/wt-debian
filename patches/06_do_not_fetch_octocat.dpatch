@@ -1,0 +1,31 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 06_do_not_fetch_octocat.dpatch by Pau Garcia i Quiles <pgquiles@elpauer.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Do not fetch GitHub's octocat. It violates DFSG guidelines and 
+## DP: it doesn't really add anything to the website.
+
+@DPATCH@
+
+diff -rupd witty-3.3.2+dfsg.orig/examples/wt-homepage/jwt-home.xml witty-3.3.2+dfsg/examples/wt-homepage/jwt-home.xml
+--- witty-3.3.2+dfsg.orig/examples/wt-homepage/jwt-home.xml	2014-02-12 12:59:42.000000000 +0100
++++ witty-3.3.2+dfsg/examples/wt-homepage/jwt-home.xml	2014-04-22 23:17:35.224105000 +0200
+@@ -587,7 +587,6 @@ href="http://www.webtoolkit.eu/jwt/lates
+ 
+ <h4>Git repository</h4>
+ 
+-<a href="https://github.com/kdeforche/jwt"><img style="display: block; width: 80px; float: right" src="https://github.com/github/media/blob/master/octocats/octocat.png?raw=true"></img></a>
+ <p>If you want to keep track of the latest changes, or participate in
+ JWt development, you may want to work from
+ the <a href="https://github.com/kdeforche/jwt">github
+diff -rupd witty-3.3.2+dfsg.orig/examples/wt-homepage/wt-home.xml witty-3.3.2+dfsg/examples/wt-homepage/wt-home.xml
+--- witty-3.3.2+dfsg.orig/examples/wt-homepage/wt-home.xml	2014-02-12 12:59:42.000000000 +0100
++++ witty-3.3.2+dfsg/examples/wt-homepage/wt-home.xml	2014-04-22 23:17:43.824105000 +0200
+@@ -1058,7 +1058,6 @@ installation instructions</a>.
+ 
+ <h4>Git repository</h4>
+ 
+-<a href="https://github.com/kdeforche/wt"><img style="display: block; width: 80px; float: right" src="https://github.com/github/media/blob/master/octocats/octocat.png?raw=true"></img></a>
+ <p>If you want to keep track of the latest changes, or participate in
+ Wt development, you may want to work from
+ the <a href="https://github.com/kdeforche/wt">github

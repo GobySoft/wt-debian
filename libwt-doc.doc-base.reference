@@ -1,0 +1,10 @@
+Document: libwt-reference
+Title: Wt online documentation
+Author: Emweb bvba
+Abstract: This set of documents provides help for developing applications
+ using the Wt libraries and application server.
+Section: Web Development
+
+Format: html
+Index: /usr/share/doc/libwt-doc/reference/html/index.html
+Files: /usr/share/doc/libwt-doc/reference/html/*.html

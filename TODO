@@ -1,0 +1,14 @@
+- Use unoconv to convert the .odt to PDF and XHTML
+  It has to build-depend on unoconv and openoffice.org-writer, and it will
+  fail because it will block on the registration screen and no socket will
+  be opened, see http://www.oooforum.org/forum/viewtopic.phtml?t=33536 for a
+  possible solution (although complex!)
+
+   /usr/lib/openoffice/basis3.2/share/registry/data/org/openoffice/Setup.xcu
+
+   ...
+   <prop oor:name="ooSetupInstCompleted">
+      <value>false</value> --> CHANGE TO true
+   </prop>
+   ...
+

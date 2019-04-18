@@ -1,0 +1,10 @@
+Document: libwt-dbo-tutorial
+Title: A gentle introduction to the Wt::Dbo ORM for use with Wt
+Author: Koen Deforche, Wim Dumon
+Abstract: This is an introductory tutorial that shows how to develop 
+ web applications using the Wt::Dbo ORM and Wt libraries.
+Section: Web Development
+
+Format: html
+Index: /usr/share/doc/libwt-doc/tutorial/dbo.html
+Files: /usr/share/doc/libwt-doc/tutorial/dbo.html

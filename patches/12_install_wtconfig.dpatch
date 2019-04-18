@@ -1,0 +1,36 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 12_install_wtconfig.dpatch by Pau Garcia i Quiles <pgquiles@elpauer.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Build used to fail if Wt was installed on the system because it
+## DP: is able to tell whether wt_config.xml is being installed to the final
+## DP: location or to a staging area.
+## DP: This patch introduces a new OPTION to force install it
+## DP: It's useful even during Wt development or when building to the final location, 
+## DP: to make sure wt_config.xml is overwritten in the final location
+
+@DPATCH@
+
+diff -rupd witty-3.3.3+dfsg.orig/CMakeLists.txt witty-3.3.3+dfsg/CMakeLists.txt
+--- witty-3.3.3+dfsg.orig/CMakeLists.txt	2014-05-13 09:23:42.000000000 +0200
++++ witty-3.3.3+dfsg/CMakeLists.txt	2014-08-09 12:49:14.977279370 +0200
+@@ -95,6 +95,7 @@ OPTION(BUILD_EXAMPLES "Build examples" O
+ OPTION(INSTALL_EXAMPLES "Install examples (binaries and source)" OFF)
+ OPTION(INSTALL_RESOURCES "Install resources directory" ON)
+ OPTION(INSTALL_FINDWT_CMAKE_FILE "Install FindWt.cmake in systemwide cmake dir (in addition to CMAKE_INSTALL_PREFIX/cmake)" OFF)
++OPTION(FORCE_INSTALL_WTCONFIG "Install the wt_config.xml file, even if it already exists" OFF)
+ OPTION(ENABLE_SSL "Enable cryptography functions, using OpenSSL" ON)
+ OPTION(ENABLE_HARU "Enable Haru Free PDF Library, which is used to provide support for painting to PDF (WPdfImage)" ON)
+ OPTION(ENABLE_PANGO "Enable Pango Library, which is used for improved font support (WPdfImage and WRasterImage)" ON)
+@@ -550,9 +551,9 @@ IF(INSTALL_EXAMPLES)
+       ${CMAKE_INSTALL_PREFIX}/${EXAMPLES_DESTINATION} PATTERN "examples/*")
+ ENDIF(INSTALL_EXAMPLES)
+ 
+-IF(NOT EXISTS ${CONFIGDIR}/wt_config.xml)
++IF(FORCE_INSTALL_WTCONFIG OR NOT EXISTS ${DESTDIR}${CONFIGDIR}/wt_config.xml)
+   INSTALL(FILES ${WT_BINARY_DIR}/wt_config.xml DESTINATION ${CONFIGDIR})
+-ENDIF (NOT EXISTS ${CONFIGDIR}/wt_config.xml)
++ENDIF(FORCE_INSTALL_WTCONFIG OR NOT EXISTS ${DESTDIR}${CONFIGDIR}/wt_config.xml)
+ 
+ IF(ENABLE_HARU AND HARU_FOUND)
+   SET(HAVE_HARU ON)

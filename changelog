@@ -1,0 +1,613 @@
+witty (3.3.11+dfsg-5~ubuntu18.04.1) bionic; urgency=medium
+
+  * Add pthread link for libwttest
+
+ -- Toby Schneider <tes.aubergine@gmail.com>  Mon, 22 Oct 2018 22:30:24 -0400
+
+witty (3.3.11+dfsg-4~ubuntu18.04.1) bionic; urgency=medium
+
+  * WFileDropWidget.min.js back in, not minified anyway
+
+ -- Toby Schneider <tes.aubergine@gmail.com>  Mon, 22 Oct 2018 15:19:35 -0400
+
+witty (3.3.11+dfsg-3~ubuntu18.04.1) bionic; urgency=medium
+
+  * Remove script to compile WtSoundManager (which has been removed upstream)
+  * Updated patches
+
+ -- Toby Schneider <tes.aubergine@gmail.com>  Mon, 22 Oct 2018 15:12:23 -0400
+
+witty (3.3.11+dfsg-2~ubuntu18.04.1) bionic; urgency=medium
+
+  * Update to 3.3.11 upstream.
+  * Dropped support for Maverick compiler
+
+ -- Toby Schneider <tes.aubergine@gmail.com>  Mon, 22 Oct 2018 14:10:47 -0400
+
+witty (3.3.6+dfsg-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Drop superfluous dependency on libmysqlclient18.  (Closes: #843491)
+  * Do not disable PIE, fixes FTBFS, thanks to Adrian Bunk.  (Closes: #846772)
+
+ -- Andreas Beckmann <anbe@debian.org>  Thu, 12 Jan 2017 18:39:05 +0100
+
+witty (3.3.6+dfsg-1) unstable; urgency=medium
+
+  * New upstream version
+  * Install DomElement.h and EscapeOStream.h (LP: #1585225)
+  * Fix some lintian-overrides with wrong soname in text
+  * Update patch 11_fix_privacy_breach_logo
+  * Make copyright DEP-5 compliant and use Files-Excluded instead of 
+    repacking script
+  * Build-depend on version-independent firebird-dev package (Closes: #841470)
+  * Use as3compile to build WtSoundManager instead of mtasc (Closes: #831552)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 9 Oct 2016 22:16:40 +0200
+
+witty (3.3.5+dfsg-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Klaus Neuschwander ]
+  * Fix the packaging to build with dpkg-buildpackage -A
+    (Closes: #805962)
+
+  [ Chris Lamb ]
+  * Drop hardening-wrapper dependency (Closes: #836663)
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Mon, 03 Oct 2016 09:47:19 +0200
+
+witty (3.3.5+dfsg-1) unstable; urgency=medium
+
+  * New upstream version
+  * Drop patch 10_fix_unkown_typo (applied upstream)
+  * Drop patch 13_boost1.58 (applied upstream)
+  * Drop patch 0001-Fix-FTBFS-on-arm64-due-to-char-meaning-unsigned-char 
+    (fixed upstream)
+  * Update location of Dbo tutorial per upstream change
+  * Replace dh_clean -k with dh_prep
+  * Update compat to 9 because the above change requires debhelper 9
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Wed, 13 Jan 2016 23:31:59 +0100
+
+witty (3.3.4+dfsg-6) unstable; urgency=medium
+
+  * Fix "hardcodes dependency on libglew1.10": do not hardcode libglew but 
+    let shlibs take care of it (Closes: #804837)
+  * Do the same for libhpdf and libgraphicsmagick runtimes
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Thu, 12 Nov 2015 13:04:28 +0100
+
+witty (3.3.4+dfsg-5) unstable; urgency=medium
+
+  * The GraphicsMagick packagers changed the binary package name
+    (libgraphicsmagick3 => libgraphicsmagick-q16-3) because upstream
+    broke ABI. Implement the change. Closes: #800432
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Tue, 29 Sep 2015 22:30:07 +0200
+
+witty (3.3.4+dfsg-4build1) unstable; urgency=medium
+
+  * Rebuild to take the new version of jQuery. Closes: #798332
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 25 Sep 2015 13:12:16 +0200
+
+witty (3.3.4+dfsg-4) unstable; urgency=medium
+
+  * Use Breaks instead of Conflicts to prevent coinstallation with the old,
+    non-split packages (pre-2010!). Thanks to Steve Langasek for reporting.
+  * Add VcsWatch pseudoheaders. Thanks to Barry Warsaw for reporting.
+  * Update overrides with a few more images under /usr/lib/Wt/examples
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Mon, 14 Sep 2015 20:47:40 +0200
+
+witty (3.3.4+dfsg-3) unstable; urgency=medium
+
+  * Add patch 13_boost1.58 by Matthias Klose to fix compilation with
+    Boost 1.58.0. Closes: #797220 
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 29 Aug 2015 22:09:37 +0200
+
+witty (3.3.4+dfsg-2) unstable; urgency=medium
+
+  * Add patch 0001-Fix-FTBFS-on-arm64-due-to-char-meaning-unsigned-char.
+    Closes: #791417
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Tue, 14 Jul 2015 19:47:47 +0200
+
+witty (3.3.4+dfsg-1) unstable; urgency=medium
+
+  * New upstream version
+  * Upgrade to standards 3.9.6.0 (no changes required)
+  * Detect UglifyJS < 2.x and > 2.x and provide different arguments to the
+    minifier (required to support older Ubuntus)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Mon, 6 Apr 2015 01:08:52 +0200
+
+witty (3.3.3+dfsg-4.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Adapt uglifyjs parameters to new uglifyjs version (Closes: #769215).
+
+ -- Andreas Stührk <andy@hammerhartes.de>  Sun, 23 Nov 2014 00:37:25 +0100
+
+witty (3.3.3+dfsg-4) unstable; urgency=medium
+
+  * Fix FTBFS due to Doxygen 1.8.8-3 leaving a stale doxygen_sqlite3.db.
+    Closes: #758896
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 23 Aug 2014 13:49:34 +0200
+
+witty (3.3.3+dfsg-3) unstable; urgency=medium
+
+  [Peter Michael Green]
+  * Fix minifier detection logic in debian/rules. Closes: #754662
+  * Change dependencies in debian/rules to use list of architectures where
+    nodejs is available rathe than incomplete list of architectures where
+    it is available.
+
+  [Pau Garcia i Quiles]
+  * Fix patch 12_install_wtconfig (wrong endif condition, although did no
+    harm)
+  * Fix target dependencies in debian/rules to (hopefully) make paralell
+    builds reliable.
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 16 Aug 2014 18:18:42 +0200
+
+witty (3.3.3+dfsg-2) unstable; urgency=medium
+
+  * Use yui-compressor where uglifyjs is not available. Closes: #754662
+  * Remove unused patches 02_freetype, 03_fontawesome and 04_fix_crashes 
+    (applied upstream in 3.3.3)
+  * Add patch 12_install_wtconfig. Closes: #725183 (also, submitted
+    upstream)
+  * Enable parallel build. Closes: #739436
+  * Add read-only relocation linker flag
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 08 Aug 2014 12:38:45 +0200
+
+witty (3.3.3+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+  * Document lintian overrides
+  * Some tuning and improvements to get-orig-source.sh
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Mon, 16 Jun 2014 11:10:05 +0200
+
+witty (3.3.2+dfsg-1) UNRELEASED; urgency=medium
+
+  * New upstream version
+  * Repack upstream tarball. Over the years, too many cruft had accumulated.
+  * Update patch 08_boost_random (only used in the Ubuntu 10.04 backport)
+  * Add patch 02_freetype to enable advanced font rendering (submitted upstream)
+  * Add patch 03_fontawesome to use system Font Awesome 4 instead of 
+    upstream-bundled FontAwesome 3.2.1 (submitted upstream)
+  * Add dependency on libglew, required for server-side WebGL processing
+  * Add dependency on uglifyjs to regenerate all the .min.js
+  * Simplify the rules file, now that most of the clean-up is done on
+    repackaging rather than on build
+  * Add patch 10_fix_unkown_typo to fix a few typos (submitted upstream)
+  * Add patch 11_fix_privacy_breach_logo to avoid fetching pictures from 
+    SourceForge and GitHub (won't submit upstream, as it is DFSG-specific)
+
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 16 Mar 2014 22:13:01 +0100
+
+witty (3.3.1-1) unstable; urgency=low
+
+  * New upstream version
+  * Remove patch 02_find_libmysqlclient (applied upstream)
+  * Remove patch 03_docroot_approot_subfolders (applied upstream)
+  * Add Google Prettify license to copyright
+  * Add Font Awesome 3.2.1 to copyright. It is not possible to use the
+    Debian system-wide version (4.0) because they are apparently
+    incompatible. I am working with upstream on this.
+  * Remove copyright 20_hurd_locking_style from copyright, as it is no
+    longer included
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 26 Oct 2013 22:16:25 +0200
+
+witty (3.3.0-2) unstable; urgency=low
+
+  * Fix wrong dependency of libwtdbomysql-dev on libwtdbofirebird35
+    (Closes: #715127)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Mon, 15 Jul 2013 22:05:03 +0200
+
+witty (3.3.0-1) unstable; urgency=low
+
+  * New upstream version
+  * Update patch 05_examples_cmake_dependencies
+  * Install the Wt::Payment headers, which were missing
+  * Add libwtdbomysql packages with the MySQL/MariaDB backend
+  * Add patch 02_find_libmysqlclient so that libmysqlclient is found
+  * Remove unneeded libpq-dev dependency in libwtdbopostgresql-dev
+  * Remove DM-Upload-Allowed, as it is now obsolete
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 12 Apr 2013 16:57:50 +0200
+
+witty (3.2.3-1) UNRELEASED; urgency=low
+
+  * New upstream version
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Mon, 19 Nov 2012 07:49:23 +0100
+
+witty (3.2.2-p1-1) unstable; urgency=low
+
+  * New upstream patch release
+  * Update watch file
+  * Add unminified jquery.js for DFSG compliance (it's not used)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 11 Aug 2012 12:17:52 +0200
+
+witty (3.2.2-1) UNRELEASED; urgency=low
+
+  * New upstream version
+  * Remove patch 09_oauth_example_missing_o (applied upstream)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Tue, 24 Jul 2012 19:17:53 +0200
+
+witty (3.2.1-2) unstable; urgency=low
+
+  * Add skins to jPlayer (WAudio/WVideo) now that jquery-jplayer-bluemonday
+    has been accepted in the archive
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 26 May 2012 11:15:21 +0100
+
+witty (3.2.1-1) unstable; urgency=low
+
+  * New upstream version
+  * New packages: libwttest, libwtfirebird
+  * Fix libwt-dbg dependencies
+  * Bump to standards 3.9.3.1 (no changes required)
+  * Add patch 08_boost_random (Closes: #653807)
+  * Add patch 09_oauth_fix_missing_o
+  * Add a few headers which do not start with 'W' to libwt-dev.install 
+    (Closes: #668295)
+  * Depend on libjs-jquery-jplayer to  provide jPlayer, instead of using 
+    upstream's bundled version
+  * Fix rules: build-resources was being executed twice
+  * Add note about jQuery and jPlayer to README.source
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 24 Mar 2012 01:53:38 +0100
+
+witty (3.1.11-1) UNRELEASED; urgency=low
+
+  * New upstream version (Closes: #642674)
+  * Drop swfobject-2.2 from dfsg-compliance directory, as Wt no longer uses 
+    SWFObject. The dependency on yui-compressor is no longer needed either.
+  * Drop patch 02_GraphicsMagick_1.2.2 (applied upstream)
+  * Drop patch 03_install_dbotutorial6_example (applied upstream)
+  * Remove leftovers from Wt 3.1.9 packaging
+  * Do not install FindWt.cmake to CMake's own module dir (Closes: #635982)
+  * Add information regarding /var/run/wt to README.Debian (Closes: #616712)
+  * Add build-arch and build-indep targets, although they are only a stub
+    for now
+  * Register examples apidox with doc-base
+  * Add base64.h under zlib license to copyright file
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 24 Sep 2011 14:43:30 +0200
+
+witty (3.1.10-1) unstable; urgency=low
+
+  * New upstream version
+  * Drop patch 03_wt_example_wrappers (applied upstream)
+  * Drop patch 08_boostfilesystem3.dpatch (solved upstream with a similar
+    patch)
+  * Removed libwt-dev dependency on libboost-program-options-dev (it's not
+    necessary, according to upstream)
+  * Fix description-synopsis-starts-with-article lintian warnings
+  * Bump standards to 3.9.2.0 (no changes required)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 08 Jul 2011 23:17:48 +0200
+
+witty (3.1.9-1) unstable; urgency=low
+
+  * New upstream release
+  * This release includes wt-sdj.odt (the PDF is not generated from the
+    .odt, see TODO for an explanation) (Closes: #613574)
+  * Update patch 01_debug_postfix. Upstream tried apply/improve my former patch
+    by adding the DEBUG_LIB_POSTFIX CMake variable, but messed up
+  * Merge patches 05_examples_check_dependencies and
+    05_examples_link_dependencies for easier maintenance
+  * Remove patch 09_wtdbosqlite3_needs_threads (applied upstream)
+  * Use jquery from Debian package instead of bundled version (add
+    build-dependency on libjs-jquery)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 09 Apr 2011 19:20:58 +0200
+
+witty (3.1.8-2) unstable; urgency=low
+
+  * Clean-up rules
+  * Apply patch 07_tests_cmake_dependencies again
+  * Build with hardening flags
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 19 Feb 2011 01:45:46 +0100
+
+witty (3.1.8-1) unstable; urgency=low
+
+  * New upstream version
+  * Install resources in /usr/share/Wt
+  * Add new package witty-examples and remove the examples and resources
+    from libwt-doc
+  * Add new patch 03_wt_example_wrappers from winstng (submitted upstream)
+  * Remove dependency on libgd2
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Tue, 08 Feb 2011 19:35:16 +0100
+
+witty (3.1.7a-1) UNRELEASED; urgency=low
+
+  * New upstream patch release which fixes a critical problem in
+    Javascript
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Wed, 01 Dec 2010 14:31:53 +0100
+
+witty (3.1.7-1) UNRELEASED; urgency=low
+
+  * New upstream release
+  * Build resources/WtSoundManager.swf from the provided source code
+    src/flash/WtSoundManager.as, using the mtasc command line suggested
+    in the source code. Thanks to Simon McVittie for
+    reporting and providing fix. (Closes: #591209)
+  * Provide the source code for SWFObject 2.2 in
+    debian/dfsg-compliance/swfobject-2.2.js, and build resources/swfobject.js
+    by compressing that with yui-compressor. . Thanks to Simon McVittie for
+    reporting and providing fix.
+  * Drop patches 02_fix_soversioning, 06_install_SyncLock_header and 
+    09_wtdbosqlite3_needs_threads (applied upstream)
+  * witty-dev also installs the Wt::Dbo backends. It made little sense to
+    install libwtdbo-dev but not the backends, given that the backends are
+    not dlopen'ed but explicitly linked
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 28 Nov 2010 13:52:18 +0100
+
+witty (3.1.6-1) UNRELEASED; urgency=low
+
+  * New upstream version
+  * Drop patch 06_fix_shebang (applied upstream)
+  * Drop patch 08_cmake_ifmatches (applied upstream)
+  * Combine patches 07_tests_cmake_link_dependencies and 
+    07_tests_cmake_check_dependencies, for easier maintenance
+  * Update patches 02_fix_soversioning and submit upstream
+  * Update 05_examples_cmake_check_dependencies to make sure dependencies 
+    for all examples are found. Update 05_examples_cmake_link_dependencies too
+  * Add patch 06_install_SyncLock_header
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Mon, 01 Nov 2010 00:14:35 +0100
+
+witty (3.1.5-1) UNRELEASED; urgency=low
+
+  * Remove patch 02_install_wtdbo_headers (applied upstream)
+  * Add patch 02_fix_soversioning to fix soversioning
+  * Add patch 06_fix_shebang to add shebang to make lintian happy
+  * Add patch 08_cmake_ifmatches to make sure examples are buildable when
+    using the wthttp connector
+  * Update patch 09_wtdbosqlite3_needs_threads 
+    to support old versions of CMake, so that backporting to Lenny is possible
+  * Add build dependency on libhpdf-dev and runtime dependency on
+    libhpdf-2.10 (required for WPdfImage)
+  * Add build dependency on libgraphicsmagick1-dev and runtime dependency on
+    libgraphicsmagick3 (required for WRasterImage)
+  * Build-depend source-highlight >= 2.5, which was the first version to
+    support SQL
+  * Install the Postgres backend for Wt::Dbo if installing binary package
+    'witty' (in the Wt 2.x series, installing 'witty' installed every
+    library you needed)
+  * Add lots of lintian overrides to avoid conflicts-with-version. When
+    renaming and splitting a package into multiple packages,
+    conflicts-with-version gives a false positive.
+  * Build WtSoundManager.swf from source (Closes: #591209)
+  * Update README.Debian with some more information on how to build the
+    examples
+  * Add symlinks to the 'resources' directory in some examples' directories 
+    (needed because of the use of Wt::setCssTheme)
+  * Standard is now 3.9.1.0 (no changes needed)
+  * Add 'DM-Upload-Allowed: yes', preparing for Debian Maintainership
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Wed, 22 Sep 2010 13:26:05 +0200
+
+witty (3.1.2-3) testing; urgency=low
+
+  * Build resources/WtSoundManager.swf from the provided source code
+    src/flash/WtSoundManager.as, using the mtasc command line suggested
+    in the source code (Closes: #591209). Thanks to Simon McVittie for
+    reporting.
+  * Provide the source code for SWFObject 2.2 in
+    debian/dfsg-compliance/swfobject-2.2.js, and build resources/swfobject.js
+    by compressing that with yui-compressor
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 28 Nov 2010 13:44:45 +0100
+
+witty (3.1.2-2) unstable; urgency=low
+
+  * Add patch by Mike Teehan to install Wt::Dbo headers
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 09 Apr 2010 14:02:28 +0200
+
+witty (3.1.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Add build-dependency on libpq-dev, for Wt::Dbo PostgreSQL backend
+  * Update copyright file to add JQuery and Sizzle.js
+  * Explicitly set source format to 1.0 until Launchpad PPAs support source 
+    format 3.0 for Ubuntu releases prior to Lucid or I stop supporting Jaunty 
+    and Karmic in my PPA
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sat, 27 Mar 2010 00:28:13 +0100
+
+witty (3.1.1a-1) UNRELEASED; urgency=low
+
+  * New upstream release
+  * Remove MiniXML from 'copyright', add RapidXML
+  * Add libwt-common package, containing the wt_config.xml file to make it
+    possible to coinstall several versions of the runtime libraries
+  * Bump standards to 3.8.4.0 (no changes needed)
+  * Update build-depends from Boost 1.35.0 to 1.36.0, as did upstream
+  * Bump soversion: wt 20, wtext 13, wtdbo/wtdbosqlite 2
+  * Update patch 05_examples_cmake_link_dependencies
+  * Drop patch 08_wt_config_in_builddir (fixed upstream)
+  * Update patch 09_wtdbosqlite3_needs_threads
+  * Drop patch 10_fix_zlib_use_definition_in_wconfig (fixed upstream)
+  * Drop patch 11_use_system_sqlite3 (fixed upstream)
+  * Update watch file to cope with patch releases such as 3.1.1a (with a
+    letter at the end)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Thu, 18 Feb 2010 09:58:06 +0100
+
+witty (3.1.0a-1) unstable; urgency=low
+
+  * New upstream release
+  * New ORM library: Wt::Dbo
+  * Rename binary packages (witty -> libwt) and provide transition plan as
+    http://wiki.debian.org/Renaming_a_Package, method A recommends. Use
+    "Replaces/Conflics (<< 3.1.0a~)" instead of << 3.1.0a so that backports 
+    work fine.
+  * Build static libraries in addition to dynamic libraries
+  * Split witty-dev into several packages, one for each library: libwt-dev, 
+    libwthttp-dev, libwtfcgi-dev, libwtdbo-dev, libwtext-dev, etc and
+    properly soversion package names
+  * Update README.Debian to with the static libraries and the split
+    packaging information
+  * Register Wt::Dbo tutorial in doc-base and update the Wt tutorial
+    location
+  * Add asciidoc and source-highlight to build-dependencies to generate the 
+    Wt::Dbo tutorial
+  * As dh_strip is unable to extract debug information from the static
+    libraries if CMAKE_BUILD_TYPE=RelWithDebInfo, tell CMake to use 
+    CMAKE_BUILD_TYPE=Release for the static build
+  * Suggest libboost-test-dev for libwt-doc, as it's required for the tests
+  * Make libmysql++-dev a suggestion for libwt-doc (for the Hangman DB
+    example) instead of a build-depends
+  * Drop patches
+    - 03_build_with_gcc44 (fixed upstream)
+    - 04_if_variablename_instead_of_variablevalue (fixed upstream)
+    - 06_hangman_build_with_mysqlpp3 (fixed upstream)
+    - 07_link_to_threads_library (fixed upstream)
+  * Update patch 05_examples_cmake_check_dependencies to properly check for 
+    dependencies when building the examples from /usr/share/doc/libwt-doc
+  * Add patch 05_examples_cmake_link_dependencies to properly link examples
+    from /usr/share/doc/libwt-doc when not building Wt.
+  * Add patch 07_tests_cmake_check_dependencies to properly check for 
+    dependencies when building the tests from /usr/share/doc/libwt-doc
+  * Add patch 07_tests_cmake_link_dependencies to properly link dependencies 
+    when building the tests from /usr/share/doc/libwt-doc.
+  * Add patch 08_wt_config_in_builddir to generate files in the build
+    directory instead of the source directory (submitted & applied upstream)
+  * Add patch 09_wtdbosqlite3_needs_threads to fix linkage with pthreads 
+    library (submitted & applied upstream)
+  * Add patch 10_fix_zlib_use_definition_in_wconfig to remove the 
+    WTHTTP_WITH_ZLIB definition from /usr/include/WConfig.h because it was 
+    wrong (always undefined) and it was internal (submitted & applied upstream)
+  * Add patch 11_use_system_sqlite3 to use Debian's Sqlite3 package instead
+    of the bundled version (submitted & applied upstream)
+  * Update copyright: 
+    - Add Pieter Libin to upstream authors
+    - Remove Orbited library, as it has been replaced by Wt's own
+      implementation in Wt 3.0
+  * Change section (web -> libdevel) to make lintian happy. Wt belongs to
+    either of them, anyway.
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Tue, 29 Dec 2009 16:53:11 +0100
+
+witty (2.2.4-3) unstable; urgency=low
+
+  * Build-depend on default Boost version in Debian. Bump shlibs as we were
+    building against Boost 1.38.0 and this means we will now build against
+    1.40.0
+  * Fix building some examples from /usr/share/doc/witty-doc/examples, see
+    http://thread.gmane.org/gmane.comp.web.witty.general/3356. Wt's own CMake
+    modules (WtFindXXX.txt) are now installed to /usr/share/doc/witty-doc,
+    just for this purpose.
+  * Make witty-dev depend on libboost-dev packages, libssl-dev, etc. Otherwise, 
+    the user would need to install the manually or it would be impossible to 
+    build applications
+  * Register docs using doc-base and make witty-doc recommend doc-base
+  * Bump standards to 3.8.3.0
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 11 Oct 2009 14:40:49 +0200
+
+witty (2.2.4-2) unstable; urgency=low
+
+  * Update shlibs
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 24 May 2009 23:17:57 +0200
+
+witty (2.2.4-1) unstable; urgency=low
+
+  * New upstream release 
+  * Fix bug #524109 (/etc/wt/wt_config.xml being ignored)
+  * Build against Boost 1.38.0 to fix bug #527803 (FTBFS with Boost 1.35.0)
+  * Add missing includes to fix bug #526664 (FTBFS with gcc 4.4, patch
+    03_build_with_gcc44.dpatch )
+  * Move the -dbg package to the debug section
+  * Recommend installing TinyMCE
+  * Point to GPL-2 instead of just "GPL", which now refers to GPL-3
+  * Fix wrong IF in hello-widgetset example (patch
+    04_cmake_if_variablename_instead_of_variablevalue.dpatch )
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 24 Apr 2009 17:22:33 +0200
+
+witty (2.2.3-1) unstable; urgency=low
+
+  * New upstream release
+  * Do not run 'ldconfig' in the 'postinst' script as this is automatically
+    done by dh_makeshlibs
+  * Remove patch 02_fix_soversion (this was needed in 2.2.2 because upstream
+    forgot to bump soversion)
+  * Add "Copyright" wherever debian/changelog contained "(C)" to make
+    lintian happy
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Wed, 28 Jan 2009 11:19:12 +0100
+
+witty (2.2.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Add information about dpatch
+  * Fix typo in the 'remove' section of the postinst script ('lconfig' ->
+    'ldconfig')
+  * Install FindWt in /usr/share/cmake-2.6/Modules, as CMake 2.6 is 
+    what Debian Sid carries these days
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 07 Dec 2008 16:46:39 +0100
+
+witty (2.2.1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Tue, 04 Nov 2008 00:31:11 +0100
+
+witty (2.2.0-1) unstable; urgency=low
+
+  * New upstream release 
+  * Modify .install files as needed by the new soversions
+  * Copyright: Amended my notes in the copyright file: MXML is under LGPL2 
+    and the license included in the copyright file was LGPL2 but for some 
+    reason, my notes said it was under GPL2
+  * Copyright: specify witty/src/web/random_device.cpp license and copyright
+  * Copyright: removed rsh license from copyright as rsh is no longer used in 
+    Wt 2.2
+  * Copyright: add license and copyright for the 'history' function in 
+    src/web/skeleton/Wt.js
+  * Copyright: add license and copyright for the 'arrayRemove' function in
+    src/web/skeleton/Wt.js
+  * Copyright: specify witty/cmake/FindWt.cmake license and copyright
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Fri, 12 Sep 2008 22:16:30 +0200
+
+witty (2.1.5-1) unstable; urgency=low
+
+  * New upstream version
+  * Dropping patch to install headers in /usr/include/Wt instead of
+    /usr/include (02_install_headers_to_include_Wt.dpatch) due to
+    inclusion in upstream
+  * witty-dev now suggests installing libqt4-dev, as the wtwithqt 
+    example/library need Qt4
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Sun, 10 Aug 2008 10:37:28 +0100
+
+witty (2.1.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #473096)
+
+ -- Pau Garcia i Quiles <pgquiles@elpauer.org>  Thu, 24 Jul 2008 01:42:28 +0100

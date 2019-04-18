@@ -1,0 +1,3 @@
+version=3
+opts="filenamemangle=s/(?:.*?)?v?(\d\.\d\.\d[-a-z0-9]*)\.tar\.gz/wt-$1.tar.gz/g,uversionmangle=s/-rc/~rc/g,dversionmangle=s/\+dfsg$//,oversionmangle=s/(.*)/$1+dfsg/" \
+  https://github.com/kdeforche/wt/releases (?:.*?/)?v?(3[\d.]*)\.tar\.gz 

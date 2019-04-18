@@ -1,0 +1,10 @@
+witty source: dbg-package-missing-depends witty-dbg
+
+# dpatch still provides features that Quilt does not provide (such as
+# scripting) and also source format 3.0 is not available on older Ubuntus
+witty source: build-depends-on-obsolete-package build-depends: dpatch
+
+# Files src/web/skeleton/Wt.js is an amalgamation of several files with
+# several licenses
+witty source: unused-file-paragraph-in-dep5-copyright paragraph at line 182
+witty source: unused-file-paragraph-in-dep5-copyright paragraph at line 187

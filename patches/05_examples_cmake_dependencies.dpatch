@@ -1,0 +1,567 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 05_examples_cmake_dependencies.dpatch by  <pgquiles@elpauer.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fixes to make example buildable out of Wt source tree
+###
+## TODO Add support for these examples:
+##      codereview, qrlogin, feature/auth1, feature/broadcast, 
+##      feature/dbo, feature/mediaplayer, feature/miniwebgl,
+##      feature/multiple_servers, oauth
+
+diff -rupd witty-3.3.4+dfsg.orig/cmake/WtFindBoost-vintage.txt witty-3.3.4+dfsg/cmake/WtFindBoost-vintage.txt
+--- witty-3.3.4+dfsg.orig/cmake/WtFindBoost-vintage.txt	2012-04-12 09:26:48.000000000 +0200
++++ witty-3.3.4+dfsg/cmake/WtFindBoost-vintage.txt	2015-04-07 00:41:20.623286000 +0200
+@@ -29,7 +29,7 @@ FIND_PATH(BOOST_INCLUDE_DIRS
+     ${BOOST_PREFIX}/include/${BOOST_VERSION}
+     ${BOOST_PREFIX}/include/boost-${BOOST_VERSION}
+     ${BOOST_PREFIX}
+-  NO_DEFAULT_PATH
++#  NO_DEFAULT_PATH
+ )
+ 
+ #SET (BOOST_LIB_DIRS "${BOOST_PREFIX}/lib ${BOOST_PREFIX}/lib64")
+@@ -114,7 +114,7 @@ ELSE(MSVC)
+       boost_regex
+     PATHS
+       ${BOOST_LIB_DIRS}
+-    NO_DEFAULT_PATH
++#    NO_DEFAULT_PATH
+   )
+ 
+   FIND_LIBRARY(BOOST_PO_LIB
+@@ -130,7 +130,7 @@ ELSE(MSVC)
+       boost_program_options
+     PATHS
+       ${BOOST_LIB_DIRS}
+-    NO_DEFAULT_PATH
++#    NO_DEFAULT_PATH
+   )
+ 
+   FIND_LIBRARY(BOOST_DT_LIB
+@@ -146,7 +146,7 @@ ELSE(MSVC)
+       boost_date_time
+     PATHS
+       ${BOOST_LIB_DIRS}
+-    NO_DEFAULT_PATH
++#    NO_DEFAULT_PATH
+   )
+ 
+   FIND_LIBRARY(BOOST_SIGNALS_LIB
+@@ -162,7 +162,7 @@ ELSE(MSVC)
+       boost_signals
+     PATHS
+       ${BOOST_LIB_DIRS}
+-    NO_DEFAULT_PATH
++#    NO_DEFAULT_PATH
+   )
+ 
+   FIND_LIBRARY(BOOST_SYSTEM_LIB
+@@ -178,7 +178,7 @@ ELSE(MSVC)
+       boost_system
+     PATHS
+       ${BOOST_LIB_DIRS}
+-    NO_DEFAULT_PATH
++#    NO_DEFAULT_PATH
+   )
+ 
+   FIND_LIBRARY(BOOST_FS_LIB
+@@ -194,7 +194,7 @@ ELSE(MSVC)
+       boost_filesystem
+     PATHS
+       ${BOOST_LIB_DIRS}
+-    NO_DEFAULT_PATH
++#    NO_DEFAULT_PATH
+   )
+ 
+   ENDIF (USE_BOOST_FRAMEWORK)
+diff -rupd witty-3.3.4+dfsg.orig/examples/blog/CMakeLists.txt witty-3.3.4+dfsg/examples/blog/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/blog/CMakeLists.txt	2011-11-07 15:28:20.000000000 +0100
++++ witty-3.3.4+dfsg/examples/blog/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -23,7 +23,7 @@ WT_ADD_EXAMPLE(blog.wt
+   blog.C
+ )
+ 
+-TARGET_LINK_LIBRARIES(blog.wt wtdbo wtdbosqlite3)
++TARGET_LINK_LIBRARIES(blog.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} wtdbo wtdbosqlite3)
+ 
+ # Test whether crypt(3) is provided by libc. If it's not, check if
+ # libcrypt exists and if it provides crypt(3).
+diff -rupd witty-3.3.4+dfsg.orig/examples/charts/CMakeLists.txt witty-3.3.4+dfsg/examples/charts/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/charts/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/charts/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -12,5 +12,5 @@ WT_ADD_EXAMPLE(charts.wt
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+-
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++TARGET_LINK_LIBRARIES(charts.wt wtext ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/CMakeLists.txt witty-3.3.4+dfsg/examples/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/CMakeLists.txt	2015-01-15 13:13:52.000000000 +0100
++++ witty-3.3.4+dfsg/examples/CMakeLists.txt	2015-04-07 17:31:41.119286000 +0200
+@@ -27,8 +27,6 @@
+ #   debug libhpdfd optimized libhpdf # only required for if you write pdfs
+ # )
+ 
+-IF("${CMAKE_CURRENT_LIST_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+-  IF(WIN32)
+     # preamble to make this a toplevel CMakeLists.txt for Windows, intended
+     # for being used 
+     CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+@@ -51,8 +49,6 @@ IF("${CMAKE_CURRENT_LIST_DIR}" STREQUAL
+     # We ship libharu as DLL. Compiling/linking against libharu DLL requires
+     # this definition to be set.
+     ADD_DEFINITIONS(-DHPDF_DLL)
+-  ENDIF(WIN32)
+-ENDIF("${CMAKE_CURRENT_LIST_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+   
+ 
+ # Normal example CMakeLists.txt starts here
+diff -rupd witty-3.3.4+dfsg.orig/examples/codeview/CMakeLists.txt witty-3.3.4+dfsg/examples/codeview/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/codeview/CMakeLists.txt	2011-05-19 16:48:56.000000000 +0200
++++ witty-3.3.4+dfsg/examples/codeview/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -10,7 +10,7 @@ ELSE(NOT MULTI_THREADED_BUILD)
+    CoderApplication.C CodeSession.C CoderWidget.C ObserverWidget.C
+  )
+ 
+- TARGET_LINK_LIBRARIES(codingview.wt ${BOOST_THREAD_LIB})
++ TARGET_LINK_LIBRARIES(codingview.wt ${BOOST_THREAD_LIB} ${BOOST_SIGNALS_LIB})
+ 
+ INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/composer/CMakeLists.txt witty-3.3.4+dfsg/examples/composer/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/composer/CMakeLists.txt	2011-05-19 16:48:56.000000000 +0200
++++ witty-3.3.4+dfsg/examples/composer/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -18,10 +18,11 @@ WT_ADD_EXAMPLE(composer.wt
+ # instead of the following:
+ #
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src
++  ${WT_INCLUDE_DIR}
+   ${WT_SOURCE_DIR}/examples/treelist
+ )
+ 
+ ADD_DEPENDENCIES(composer.wt wt ${EXAMPLES_CONNECTOR})
++TARGET_LINK_LIBRARIES(composer.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+ 
+ ENDIF(NOT WT_NO_STD_WSTRING)
+diff -rupd witty-3.3.4+dfsg.orig/examples/dialog/CMakeLists.txt witty-3.3.4+dfsg/examples/dialog/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/dialog/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/dialog/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -3,6 +3,7 @@ WT_ADD_EXAMPLE(dialog.wt
+   DialogExample.C
+ )
+ 
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+ 
+ ADD_DEPENDENCIES(dialog.wt wt ${EXAMPLES_CONNECTOR})
++TARGET_LINK_LIBRARIES(dialog.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/dragdrop/CMakeLists.txt witty-3.3.4+dfsg/examples/dragdrop/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/dragdrop/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/dragdrop/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -10,6 +10,7 @@ WT_ADD_EXAMPLE(dragdrop.wt
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+ 
+ ADD_DEPENDENCIES(dragdrop.wt wt ${EXAMPLES_CONNECTOR})
++TARGET_LINK_LIBRARIES(dragdrop.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/auth1/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/auth1/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/auth1/CMakeLists.txt	2011-11-10 09:10:16.000000000 +0100
++++ witty-3.3.4+dfsg/examples/feature/auth1/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -4,6 +4,6 @@ WT_ADD_EXAMPLE(auth1.wt
+ 	model/User.C
+ )
+ 
+-TARGET_LINK_LIBRARIES(auth1.wt wtdbo wtdbosqlite3)
++TARGET_LINK_LIBRARIES(auth1.wt wtdbo wtdbosqlite3 ${BOOST_SIGNALS_LIB} ${BOOST_SYSTEM_LIB})
+ 
+ INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/broadcast/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/broadcast/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/broadcast/CMakeLists.txt	2011-07-19 16:52:16.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/broadcast/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -4,6 +4,8 @@ ELSE(NOT MULTI_THREADED_BUILD)
+ 
+   WT_ADD_EXAMPLE(broadcast.wt BroadCast.C)
+ 
++  TARGET_LINK_LIBRARIES(broadcast.wt ${BOOST_THREAD_LIB} ${BOOST_SIGNALS_LIB})
++
+   #
+   # If you have Wt installed somehwere, you should use the
+   # installed Wt header files for your own Wt projects.
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/oauth/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/oauth/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/oauth/CMakeLists.txt	2012-05-23 20:54:01.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/oauth/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -2,6 +2,6 @@ WT_ADD_EXAMPLE(oauth.wt
+         OAuth.C
+ )
+ 
+-TARGET_LINK_LIBRARIES(oauth.wt)
++TARGET_LINK_LIBRARIES(oauth.wt ${BOOST_SIGNALS_LIB} ${BOOST_SYSTEM_LIB})
+ 
+ INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/serverpush/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/serverpush/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/serverpush/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/serverpush/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -10,6 +10,7 @@ ELSE(NOT MULTI_THREADED_BUILD)
+   # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+   # instead of the following:
+   #
+-  INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++  INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++  TARGET_LINK_LIBRARIES(serverpush.wt ${BOOST_THREAD_LIB} ${BOOST_SIGNALS_LIB})
+ 
+ ENDIF(NOT MULTI_THREADED_BUILD)
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/socketnotifier/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/socketnotifier/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/socketnotifier/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/socketnotifier/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -14,7 +14,8 @@ ELSE(NOT MULTI_THREADED_BUILD)
+     # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+     # instead of the following:
+     #
+-    INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++    INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++    TARGET_LINK_LIBRARIES(socketnotifier.wt ${BOOST_SIGNALS_LIB})
+   ENDIF (MINGW)
+ 
+ ENDIF(NOT MULTI_THREADED_BUILD)
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/suggestionpopup/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/suggestionpopup/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/suggestionpopup/CMakeLists.txt	2011-06-27 11:22:06.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/suggestionpopup/CMakeLists.txt	2015-04-07 00:41:20.627286000 +0200
+@@ -8,6 +8,7 @@ WT_ADD_EXAMPLE(suggestionpopup.wt Sugges
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++TARGET_LINK_LIBRARIES(suggestionpopup.wt ${BOOST_SIGNALS_LIB})
+ 
+ ENDIF(NOT WT_NO_STD_WSTRING)
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/video/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/video/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/video/CMakeLists.txt	2011-08-03 09:22:51.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/video/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -6,4 +6,4 @@ WT_ADD_EXAMPLE(video.wt video.C)
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+diff -rupd witty-3.3.4+dfsg.orig/examples/feature/widgetset/CMakeLists.txt witty-3.3.4+dfsg/examples/feature/widgetset/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/feature/widgetset/CMakeLists.txt	2011-04-05 15:20:05.000000000 +0200
++++ witty-3.3.4+dfsg/examples/feature/widgetset/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -8,7 +8,8 @@ IF (EXAMPLES_CONNECTOR MATCHES "wthttp")
+   # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+   # instead of the following:
+   #
+-  INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++  INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++  TARGET_LINK_LIBRARIES(hellowidgetset.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+ 
+ ELSE (EXAMPLES_CONNECTOR MATCHES "wthttp")
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/filetreetable/CMakeLists.txt witty-3.3.4+dfsg/examples/filetreetable/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/filetreetable/CMakeLists.txt	2010-10-29 15:27:49.000000000 +0200
++++ witty-3.3.4+dfsg/examples/filetreetable/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -9,10 +9,10 @@ ELSE(NOT WIN32 AND NOT BOOST_FS_LIB)
+   )
+ 
+   TARGET_LINK_LIBRARIES(filetreetable.wt
+-    ${BOOST_FS_LIB}
++    ${BOOST_FS_LIB} ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES}
+   )
+ 
+-  INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++  INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+ 
+   ADD_DEPENDENCIES(filetreetable.wt wt ${EXAMPLES_CONNECTOR})
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/form/CMakeLists.txt witty-3.3.4+dfsg/examples/form/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/form/CMakeLists.txt	2011-05-19 16:48:56.000000000 +0200
++++ witty-3.3.4+dfsg/examples/form/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -2,8 +2,9 @@ IF(NOT WT_NO_STD_WSTRING)
+ 
+ WT_ADD_EXAMPLE(formexample.wt Form.C FormExample.C)
+ 
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+ 
+ ADD_DEPENDENCIES(formexample.wt wt ${EXAMPLES_CONNECTOR})
++TARGET_LINK_LIBRARIES(formexample.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+ 
+ ENDIF(NOT WT_NO_STD_WSTRING)
+diff -rupd witty-3.3.4+dfsg.orig/examples/gitmodel/CMakeLists.txt witty-3.3.4+dfsg/examples/gitmodel/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/gitmodel/CMakeLists.txt	2010-10-29 15:27:49.000000000 +0200
++++ witty-3.3.4+dfsg/examples/gitmodel/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -7,7 +7,7 @@ IF(BOOST_FS_LIB)
+     ../wt-homepage/SourceView.C
+     GitView.C
+   )
+-  TARGET_LINK_LIBRARIES(gitview.wt ${BOOST_FS_LIB})
++  TARGET_LINK_LIBRARIES(gitview.wt ${BOOST_FS_LIB} ${BOOST_SIGNALS_LIB} ${BOOST_SYSTEM_LIB})
+ 
+   INCLUDE_DIRECTORIES(
+     ${WT_SOURCE_DIR}/src
+diff -rupd witty-3.3.4+dfsg.orig/examples/hangman/CMakeLists.txt witty-3.3.4+dfsg/examples/hangman/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/hangman/CMakeLists.txt	2011-11-15 08:49:29.000000000 +0100
++++ witty-3.3.4+dfsg/examples/hangman/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -10,7 +10,7 @@ WT_ADD_EXAMPLE(hangman.wt
+   HighScoresWidget.C
+   Dictionary.C
+ )
+-TARGET_LINK_LIBRARIES(hangman.wt wtdbo wtdbosqlite3)
++TARGET_LINK_LIBRARIES(hangman.wt wtdbo wtdbosqlite3 ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+ 
+ # Test whether crypt(3) is provided by libc. If it's not, check if
+ # libcrypt exists and if it provides crypt(3).
+@@ -27,4 +27,4 @@ IF(CRYPT_LIB_EXISTS)
+   TARGET_LINK_LIBRARIES(hangman.wt crypt)
+ ENDIF(CRYPT_LIB_EXISTS)
+ 
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+diff -rupd witty-3.3.4+dfsg.orig/examples/hello/CMakeLists.txt witty-3.3.4+dfsg/examples/hello/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/hello/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/hello/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -15,4 +15,5 @@ WT_ADD_EXAMPLE(hello.wt hello.C)
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++TARGET_LINK_LIBRARIES(hello.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/javascript/CMakeLists.txt witty-3.3.4+dfsg/examples/javascript/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/javascript/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/javascript/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -4,6 +4,7 @@ WT_ADD_EXAMPLE(javascript.wt
+   Popup.C
+ )
+ 
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+ 
+ ADD_DEPENDENCIES(javascript.wt wt ${EXAMPLES_CONNECTOR})
++TARGET_LINK_LIBRARIES(javascript.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/mandelbrot/CMakeLists.txt witty-3.3.4+dfsg/examples/mandelbrot/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/mandelbrot/CMakeLists.txt	2013-11-29 17:28:07.000000000 +0100
++++ witty-3.3.4+dfsg/examples/mandelbrot/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -6,10 +6,11 @@ ELSE(NOT WT_HAS_WRASTERIMAGE)
+ 
+   INCLUDE_DIRECTORIES(
+     ${GD_INCLUDE_DIRS}
+-    ${WT_SOURCE_DIR}/src
++    ${WT_INCLUDE_DIR}
+   )
+ 
+   ADD_DEPENDENCIES(mandelbrot.wt wt ${EXAMPLES_CONNECTOR})
++  TARGET_LINK_LIBRARIES(mandelbrot.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} ${GD_LIBRARIES})
+ 
+ ENDIF(NOT WT_HAS_WRASTERIMAGE)
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/mission/CMakeLists.txt witty-3.3.4+dfsg/examples/mission/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/mission/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/mission/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -7,7 +7,8 @@ WT_ADD_EXAMPLE(impossible.wt impossible.
+ # instead of the following:
+ #
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src
++  ${WT_INCLUDE_DIR}
+ )
+ 
+ ADD_DEPENDENCIES(impossible.wt wt ${EXAMPLES_CONNECTOR})
++TARGET_LINK_LIBRARIES(impossible.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/painting/CMakeLists.txt witty-3.3.4+dfsg/examples/painting/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/painting/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/painting/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -8,5 +8,5 @@ WT_ADD_EXAMPLE(paintexample.wt
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+-
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++TARGET_LINK_LIBRARIES(paintexample.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/planner/CMakeLists.txt witty-3.3.4+dfsg/examples/planner/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/planner/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/planner/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -20,5 +20,5 @@ TARGET_LINK_LIBRARIES(planner.wt wtdbo w
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+-
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
++TARGET_LINK_LIBRARIES(planner.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/qrlogin/CMakeLists.txt witty-3.3.4+dfsg/examples/qrlogin/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/qrlogin/CMakeLists.txt	2012-01-12 11:11:36.000000000 +0100
++++ witty-3.3.4+dfsg/examples/qrlogin/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -7,6 +7,6 @@ WT_ADD_EXAMPLE(qrlogin.wt
+ 	model/User.C
+ )
+ 
+-TARGET_LINK_LIBRARIES(qrlogin.wt wtdbo wtdbosqlite3)
++TARGET_LINK_LIBRARIES(qrlogin.wt wtdbo wtdbosqlite3 ${BOOST_SIGNALS_LIB} ${BOOST_SYSTEM_LIB})
+ 
+ INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+diff -rupd witty-3.3.4+dfsg.orig/examples/simplechat/CMakeLists.txt witty-3.3.4+dfsg/examples/simplechat/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/simplechat/CMakeLists.txt	2010-12-16 12:19:39.000000000 +0100
++++ witty-3.3.4+dfsg/examples/simplechat/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -2,6 +2,7 @@ IF(NOT MULTI_THREADED_BUILD)
+   MESSAGE(STATUS "** Not building simplechat example: requires a multi-threaded build.")
+ ELSE(NOT MULTI_THREADED_BUILD)
+ 
++ FIND_PACKAGE(Threads REQUIRED)
+  ADD_DEFINITIONS(-DTHREADED)
+ 
+  WT_ADD_EXAMPLE(simplechat.wt
+@@ -11,7 +12,7 @@ ELSE(NOT MULTI_THREADED_BUILD)
+    SimpleChatServer.C
+ )
+ 
+- TARGET_LINK_LIBRARIES(simplechat.wt ${BOOST_THREAD_LIB})
++ TARGET_LINK_LIBRARIES(simplechat.wt ${BOOST_WT_THREAD_LIBRARY} ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+ 
+  #
+  # If you have Wt installed somehwere, you should use the
+@@ -19,7 +20,7 @@ ELSE(NOT MULTI_THREADED_BUILD)
+  # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+  # instead of the following:
+  #
+- INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++ INCLUDE_DIRECTORIES(${WT_SOURCE_DIR})
+ 
+ ENDIF(NOT MULTI_THREADED_BUILD)
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/style/CMakeLists.txt witty-3.3.4+dfsg/examples/style/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/style/CMakeLists.txt	2013-11-29 17:28:07.000000000 +0100
++++ witty-3.3.4+dfsg/examples/style/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -7,10 +7,11 @@ ELSE(NOT WT_HAS_WRASTERIMAGE)
+   WT_ADD_EXAMPLE(styleexample.wt CornerImage.C RoundedWidget.C StyleExample.C)
+ 
+   INCLUDE_DIRECTORIES(
+-   ${WT_SOURCE_DIR}/src
++   ${WT_INCLUDE_DIR}
+   )
+ 
+   ADD_DEPENDENCIES(styleexample.wt wt ${EXAMPLES_CONNECTOR})
++  TARGET_LINK_LIBRARIES(styleexample.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} ${GD_LIBRARIES})
+ 
+ ENDIF(NOT WT_HAS_WRASTERIMAGE)
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/treelist/CMakeLists.txt witty-3.3.4+dfsg/examples/treelist/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/treelist/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/treelist/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -1,8 +1,8 @@
+ WT_ADD_EXAMPLE(demotreelist.wt DemoTreeList.C IconPair.C TreeNode.C)
+ 
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src
++  ${WT_INCLUDE_DIR}
+ )
+ 
+ ADD_DEPENDENCIES(demotreelist.wt wt ${EXAMPLES_CONNECTOR})
+-
++TARGET_LINK_LIBRARIES(demotreelist.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/treeview/CMakeLists.txt witty-3.3.4+dfsg/examples/treeview/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/treeview/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/treeview/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -4,8 +4,8 @@ WT_ADD_EXAMPLE(treeviewexample.wt
+ )
+ 
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src
++  ${WT_INCLUDE_DIR}
+ )
+ 
+ ADD_DEPENDENCIES(treeviewexample.wt wt ${EXAMPLES_CONNECTOR})
+-
++TARGET_LINK_LIBRARIES(treeviewexample.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/treeview-dragdrop/CMakeLists.txt witty-3.3.4+dfsg/examples/treeview-dragdrop/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/treeview-dragdrop/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/treeview-dragdrop/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -5,8 +5,8 @@ WT_ADD_EXAMPLE(treeviewdragdrop.wt
+ )
+ 
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src
++  ${WT_INCLUDE_DIR}
+ )
+ 
+ ADD_DEPENDENCIES(treeviewdragdrop.wt wt ${EXAMPLES_CONNECTOR})
+-
++TARGET_LINK_LIBRARIES(treeviewdragdrop.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES})
+diff -rupd witty-3.3.4+dfsg.orig/examples/webgl/CMakeLists.txt witty-3.3.4+dfsg/examples/webgl/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/webgl/CMakeLists.txt	2010-11-12 11:00:43.000000000 +0100
++++ witty-3.3.4+dfsg/examples/webgl/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -8,11 +8,11 @@
+ # build a DLL with the proper symbols exported.
+ #
+ WT_ADD_EXAMPLE(webgl.wt teapot.C readObj.C PaintWidget.C)
+-
++TARGET_LINK_LIBRARIES(webgl.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} )
+ #
+ # If you have Wt installed somehwere, you should use the
+ # installed Wt header files for your own Wt projects.
+ # e.g. INCLUDE_DIRECTORIES(/usr/local/include)
+ # instead of the following:
+ #
+-INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
++INCLUDE_DIRECTORIES(${WT_INCLUDE_DIR})
+diff -rupd witty-3.3.4+dfsg.orig/examples/wt-homepage/CMakeLists.txt witty-3.3.4+dfsg/examples/wt-homepage/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/wt-homepage/CMakeLists.txt	2011-11-07 15:28:20.000000000 +0100
++++ witty-3.3.4+dfsg/examples/wt-homepage/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -34,7 +34,7 @@ ENDIF(WT_EMWEB_BUILD)
+ 
+ WT_ADD_EXAMPLE(Home.wt ${SRC})
+ 
+-TARGET_LINK_LIBRARIES(Home.wt wtdbo wtdbosqlite3 ${BOOST_FS_LIB})
++TARGET_LINK_LIBRARIES(Home.wt ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} wtdbo wtdbosqlite3 ${BOOST_FS_LIB})
+ 
+ # Test whether crypt(3) is provided by libc. If it's not, check if
+ # libcrypt exists and if it provides crypt(3).
+@@ -52,7 +52,7 @@ IF(CRYPT_LIB_EXISTS)
+ ENDIF(CRYPT_LIB_EXISTS)
+ 
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src
++  ${WT_INCLUDE_DIR}
+   ${WT_SOURCE_DIR}/examples/blog
+   )
+ 
+diff -rupd witty-3.3.4+dfsg.orig/examples/wtwithqt/CMakeLists.txt witty-3.3.4+dfsg/examples/wtwithqt/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/wtwithqt/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/wtwithqt/CMakeLists.txt	2015-04-07 00:41:20.631286000 +0200
+@@ -32,7 +32,7 @@ ELSE (NOT BUILD_WTWITHQT)
+ 
+   TARGET_LINK_LIBRARIES(helloqt.wt
+     wtwithqt
+-    ${QT_LIBRARIES}
++    ${QT_LIBRARIES} ${SSL_LIBRARIES} ${BOOST_WT_LIBRARIES} ${BOOST_WTHTTP_LIBRARIES} ${ZLIB_LIBRARIES} ${ASIO_LIBRARIES} ${QT_QTCORE_LIBRARIES}
+   )
+ 
+   #
+@@ -42,7 +42,7 @@ ELSE (NOT BUILD_WTWITHQT)
+   # instead of the following:
+   #
+   INCLUDE_DIRECTORIES(
+-    ${WT_SOURCE_DIR}/src
++    ${WT_INCLUDE_DIR}
+     ${CMAKE_CURRENT_SOURCE_DIR}/lib
+     ${QT_QTCORE_INCLUDE_DIR} ${QT_INCLUDE_DIR}
+   )
+diff -rupd witty-3.3.4+dfsg.orig/examples/wtwithqt/lib/CMakeLists.txt witty-3.3.4+dfsg/examples/wtwithqt/lib/CMakeLists.txt
+--- witty-3.3.4+dfsg.orig/examples/wtwithqt/lib/CMakeLists.txt	2010-10-16 16:54:31.000000000 +0200
++++ witty-3.3.4+dfsg/examples/wtwithqt/lib/CMakeLists.txt	2015-04-07 00:41:20.635286000 +0200
+@@ -15,6 +15,6 @@ ADD_LIBRARY(wtwithqt STATIC
+ # instead of the following:
+ #
+ INCLUDE_DIRECTORIES(
+-  ${WT_SOURCE_DIR}/src/wt
++  ${WT_INCLUDE_DIR}
+   ${QT_QTCORE_INCLUDE_DIR} ${QT_INCLUDE_DIR}
+ )
