@@ -1,0 +1,306 @@
+## Pre-declare environmental variables
+environment-template-common: &environment-template-common
+  DEBIAN_FRONTEND: "noninteractive"
+  DEBIAN_PRIORITY: "critical"
+  DEBCONF_NOWARNINGS: "yes"
+  DEBFULLNAME: "GobySoft CircleCI"
+  DEBEMAIL: "toby@gobysoft.org"
+  QUILT_PATCHES: debian/patches
+  QUILT_REFRESH_ARGS: "-p ab --no-timestamps --no-index --strip-trailing-whitespace"
+  SOURCE_WORKING_DIRECTORY: "/root/package-src"
+
+environment-template-amd64: &environment-template-amd64
+  TARGET_ARCH: "amd64"
+  DEB_BUILD_OPTIONS: "parallel=4"
+  # one job only must do the source build for each distro
+  DO_SOURCE_BUILD: "true"
+
+environment-template-arm64: &environment-template-arm64
+  TARGET_ARCH: "arm64"
+  DEB_BUILD_OPTIONS: "parallel=4 nocheck"
+  
+environment-template-armhf: &environment-template-armhf
+  TARGET_ARCH: "armhf"
+  DEB_BUILD_OPTIONS: "parallel=4 nocheck"
+  
+environment-template-stretch: &environment-template-stretch
+  DISTRO_RELEASE_CODENAME: "stretch"
+  DISTRO_RELEASE_VERSION: "debian9"
+
+environment-template-xenial: &environment-template-xenial
+  DISTRO_RELEASE_CODENAME: "xenial"
+  DISTRO_RELEASE_VERSION: "ubuntu16.04"
+  
+environment-template-bionic: &environment-template-bionic
+  DISTRO_RELEASE_CODENAME: "bionic"
+  DISTRO_RELEASE_VERSION: "ubuntu18.04"
+
+## Pre-declare Docker containers
+docker-base-stretch: &docker-base-stretch
+  - image: gobysoft/debian-build-base:9.1
+
+docker-base-xenial: &docker-base-xenial
+  - image: gobysoft/ubuntu-build-base:16.04.1
+
+docker-base-bionic: &docker-base-bionic
+  - image: gobysoft/ubuntu-build-base:18.04.1
+
+## Pre-declare job templates
+job-template-amd64: &job-template-amd64
+  working_directory: /root/debian
+  steps:
+    - checkout
+    - run: &run-update-apt
+        name: Update apt packages
+        command: apt-get update && apt-get dist-upgrade -y
+    - run: &run-import-gpg
+        name: Import GPG key
+        command: echo -e "$GPG_KEY" | gpg --import
+    - attach-workspace: &attach-src-workspace
+        at: /root/src
+    - run: &run-extract-src
+        name: Extract the original source tarball
+        command: |
+          cp /root/src/*.orig.tar.gz ${CIRCLE_WORKING_DIRECTORY}/.. &&
+          mkdir -p ${SOURCE_WORKING_DIRECTORY} && cd ${SOURCE_WORKING_DIRECTORY} &&
+          tar xfz ../*.orig.tar.gz --strip-components=1
+    - run: &run-nest-deb
+        name: Nest debian source into project source
+        command: cp -r /root/debian ${SOURCE_WORKING_DIRECTORY}
+    - run: &run-dch
+        name: Generate original source tarball and add changelog entry 
+        command: |
+          cd ${SOURCE_WORKING_DIRECTORY} &&
+          export NEWVERSION="$(echo ../*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
+          COMMENT="Autobuild for version ${NEWVERSION}" &&
+          dch --newversion=${NEWVERSION}-1~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
+    - run: &run-install-build-deps
+        name: Install build dependencies
+        command: |
+          # Bug in Bionic: if this file isn't removed, we get
+          # dpkg: error processing archive /var/cache/apt/archives/libstdc++-7-dev_7.3.0-27ubuntu1~18.04_arm64.deb (--unpack):
+          #   trying to overwrite shared '/usr/include/c++/7/ext/random', which is different from other instances of package libstdc++-7-dev:arm64
+          rm -f /usr/include/c++/7/ext/random && 
+          cd ${SOURCE_WORKING_DIRECTORY} &&
+          mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch amd64 -t "apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
+          rm -f ${SOURCE_WORKING_DIRECTORY}/*-build-deps*.deb
+    - run: &run-build-pkg
+        name: Build the Debian package 
+        command: |
+          cd ${SOURCE_WORKING_DIRECTORY} &&
+          export DPKG_BUILDPACKAGE_BUILD_TYPE="-B"
+          # default is to do source and binary build
+          [[ "${DO_SOURCE_BUILD}" == "true" ]] && DPKG_BUILDPACKAGE_BUILD_TYPE=""        
+          CONFIG_SITE=/etc/dpkg-cross/cross-config.${TARGET_ARCH} && dpkg-buildpackage -k19478082E2F8D3FE -a${TARGET_ARCH} ${DPKG_BUILDPACKAGE_BUILD_TYPE}
+    - run: &run-store-next-build
+        name: Store deb files for next build
+        command: |
+          cd ${SOURCE_WORKING_DIRECTORY} &&
+          mkdir -p /root/deb &&
+          find .. -maxdepth 1 -type f -exec cp {}  /root/deb \; &&
+          rm -f /root/deb/*-build-deps*.deb
+    - run: &run-store-for-artifacts
+        name: Store deb files for storing artifacts
+        command: mkdir -p /tmp/deb && cp /root/deb/* /tmp/deb
+    - store_artifacts: &store
+        path: /tmp/deb
+    - run: &remove-orig-source
+        name: Remove original source file to avoid conflicts in merging
+        command: |        
+          rm -f /root/deb/*.orig.tar.gz || true
+    - persist_to_workspace: &persist-debs
+        root: /root/deb
+        paths:
+          - '*.dsc'
+          - '*.tar.xz'
+          - '*.deb'
+          - '*.ddeb'
+          - '*.changes'
+          - '*.buildinfo'
+  
+job-template-cross: &job-template-cross
+  <<: *job-template-amd64
+
+# base upload off Bionic build
+job-template-upload: &job-template-upload
+  <<: *job-template-amd64
+  docker: *docker-base-bionic
+  
+## Begin actual config
+version: 2
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - get-orig-source
+          
+      - amd64-stretch-build:
+          requires:
+            - get-orig-source
+      - arm64-stretch-build:
+          requires:
+            - amd64-stretch-build
+      - armhf-stretch-build:
+          requires:
+            - arm64-stretch-build
+            
+      - amd64-xenial-build:
+          requires:
+            - get-orig-source
+      - arm64-xenial-build:
+          requires:
+            - amd64-xenial-build
+      - armhf-xenial-build:
+          requires:
+            - arm64-xenial-build
+            
+      - amd64-bionic-build:
+          requires:
+            - get-orig-source
+      - arm64-bionic-build:
+          requires:
+            - amd64-bionic-build
+      - armhf-bionic-build:
+          requires:
+            - arm64-bionic-build
+
+      - continuous-upload:
+          requires:
+            - armhf-stretch-build
+            - armhf-bionic-build
+            - armhf-xenial-build
+
+      - release-upload:
+          requires:
+            - armhf-stretch-build
+            - armhf-bionic-build
+            - armhf-xenial-build            
+            
+jobs:
+  get-orig-source:
+    <<: *job-template-amd64
+    docker: *docker-base-bionic
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bionic
+      <<: *environment-template-amd64
+    steps:
+      - checkout
+      - run:
+          name: Install required packages
+          command: |          
+            apt-get update && apt-get -y install cdbs wget     
+      - run:
+          name: Get original source tarball
+          command: |
+            cd .. &&
+            make -f debian/rules get-orig-source &&
+            mkdir -p /root/src &&
+            mv ../*.tar.gz /root/src
+      - store_artifacts:
+          path: /root/src
+      - persist_to_workspace:
+          root: /root/src
+          paths:
+            - '*.tar.gz'
+            
+  amd64-stretch-build:
+    <<: *job-template-amd64
+    docker: *docker-base-stretch
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-stretch
+      <<: *environment-template-amd64
+  arm64-stretch-build: 
+    <<: *job-template-cross
+    docker: *docker-base-stretch
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-stretch
+      <<: *environment-template-arm64
+  armhf-stretch-build: 
+    <<: *job-template-cross
+    docker: *docker-base-stretch
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-stretch
+      <<: *environment-template-armhf
+  amd64-xenial-build:
+    <<: *job-template-amd64
+    docker: *docker-base-xenial
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-xenial
+      <<: *environment-template-amd64
+  arm64-xenial-build: 
+    <<: *job-template-cross
+    docker: *docker-base-xenial
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-xenial
+      <<: *environment-template-arm64
+  armhf-xenial-build: 
+    <<: *job-template-cross
+    docker: *docker-base-xenial
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-xenial
+      <<: *environment-template-armhf
+  amd64-bionic-build:
+    <<: *job-template-amd64
+    docker: *docker-base-bionic
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bionic
+      <<: *environment-template-amd64
+  arm64-bionic-build: 
+    <<: *job-template-cross
+    docker: *docker-base-bionic
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bionic
+      <<: *environment-template-arm64
+  armhf-bionic-build: 
+    <<: *job-template-cross
+    docker: *docker-base-bionic
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bionic
+      <<: *environment-template-armhf
+  continuous-upload:
+    <<: *job-template-upload
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bionic
+      <<: *environment-template-amd64
+      UPLOAD_DESTINATION: "gobysoft-continuous"
+    steps: &steps-upload
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "cd:15:c9:43:48:20:c9:56:58:9e:91:01:74:0d:fe:d2"
+      - run: *run-import-gpg
+      - attach-workspace:
+          at: /root/deb
+      - attach-workspace: *attach-src-workspace
+      - run:
+          name: Move original source into output directory
+          command: mv /root/src/* /root/deb
+      - run:
+          name: Upload packages to packages.gobysoft.org
+          command: |
+            echo 'trusted-key A8E48CFF6650A07F6EF2B9AD19478082E2F8D3FE' >> ~/.gnupg/gpg.conf
+            echo '|1|HjIjI40ko7XtgqXNK8DNuiVcy4Q=|7PEGcXNRmsj1tzGeRjb9UgWIWwE= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8LmTLyo7inmKCa28F2JZBSpQFT1VrwnFpeV1v6PlQE' >> ~/.ssh/known_hosts
+            for change_file in /root/deb/*.changes;
+            do dput -c ${CIRCLE_WORKING_DIRECTORY}/.circleci/dput.cf ${UPLOAD_DESTINATION} $change_file;
+            done
+          
+
+  release-upload:
+    <<: *job-template-upload
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bionic
+      <<: *environment-template-amd64
+      UPLOAD_DESTINATION: "gobysoft-release"
+    steps: *steps-upload
