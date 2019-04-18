@@ -4,7 +4,7 @@ Files-Excluded: doc/tutorial/asciidoc.js
  resources/font-awesome/*
  resources/jPlayer/*
  src/3rdparty/glew-1.10.0/*
- src/js/*.min.js
+# src/js/*.min.js
  src/web/skeleton/*.min.js
  src/web/skeleton/jquery.js
  src/Wt/Dbo/backend/amalgamation/*
