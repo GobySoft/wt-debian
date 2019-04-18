@@ -127,6 +127,10 @@ job-template-cross: &job-template-cross
   steps:
     - checkout
     - run: *run-import-gpg
+    - run:
+        name: Make directories
+        command: |
+          sudo mkdir -p /root/deb /root/src
     - attach-workspace: *attach-src-workspace
     - run: *run-extract-src
     - run: *run-nest-deb
@@ -149,7 +153,6 @@ job-template-cross: &job-template-cross
         name: Build the package
         command: |
           cd ${SOURCE_WORKING_DIRECTORY} &&
-          sudo mkdir -p /root/deb &&
           sudo pbuilder-dist bionic arm64 build ../*.dsc --buildresult /root/deb
     - run: *run-store-for-artifacts
     - store_artifacts: *store
