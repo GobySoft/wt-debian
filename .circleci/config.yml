@@ -117,6 +117,7 @@ job-template-amd64: &job-template-amd64
           - '*.ddeb'
           - '*.changes'
           - '*.buildinfo'
+          - '*.diff.gz'
   
 job-template-cross: &job-template-cross
   <<: *job-template-amd64
