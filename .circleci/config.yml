@@ -121,6 +121,36 @@ job-template-amd64: &job-template-amd64
   
 job-template-cross: &job-template-cross
   <<: *job-template-amd64
+  steps:
+    - checkout
+    - run: *run-import-gpg
+    - attach-workspace: *attach-src-workspace
+    - run: *run-extract-src
+    - run: *run-nest-deb
+    - run: *run-dch
+    - run:
+        name: Install required packages
+        command: |
+          apt-get update && apt-get -y install devscripts ubuntu-dev-tools qemu-user-static
+    - run: &run-build-src-pkg
+        name: Build the Debian source package 
+        command: |
+          cd ${SOURCE_WORKING_DIRECTORY} &&
+          export DPKG_BUILDPACKAGE_BUILD_TYPE="-S"
+          CONFIG_SITE=/etc/dpkg-cross/cross-config.${TARGET_ARCH} && dpkg-buildpackage -k19478082E2F8D3FE -a${TARGET_ARCH} ${DPKG_BUILDPACKAGE_BUILD_TYPE}
+    - run: &run-setup-pbuilder
+        name: Create pbuilder chroot
+        command: |
+          pbuilder-dist bionic arm64 create
+    - run: &run-build-pbuilder
+        name: Build the package
+        command: |
+          cd ${SOURCE_WORKING_DIRECTORY} &&
+          pbuilder-dist bionic arm64 build ../*.dsc --buildresult /root/deb
+    - run: *run-store-for-artifacts
+    - store_artifacts: *store
+    - run: *remove-orig-source
+    - persist_to_workspace: *persist-debs
 
 # base upload off Bionic build
 job-template-upload: &job-template-upload
@@ -135,9 +165,9 @@ workflows:
     jobs:
       - get-orig-source
           
-      - amd64-stretch-build:
-          requires:
-            - get-orig-source
+#      - amd64-stretch-build:
+#          requires:
+#            - get-orig-source
       # - arm64-stretch-build:
       #     requires:
       #       - amd64-stretch-build
@@ -145,9 +175,9 @@ workflows:
       #     requires:
       #       - arm64-stretch-build
             
-      - amd64-xenial-build:
-          requires:
-            - get-orig-source
+#      - amd64-xenial-build:
+#          requires:
+#            - get-orig-source
       # - arm64-xenial-build:
       #     requires:
       #       - amd64-xenial-build
@@ -155,27 +185,27 @@ workflows:
       #     requires:
       #       - arm64-xenial-build
             
-      - amd64-bionic-build:
-          requires:
+#      - amd64-bionic-build:
+#          requires:
+#            - get-orig-source
+      - arm64-bionic-build:
+           requires:
             - get-orig-source
-      # - arm64-bionic-build:
-      #     requires:
-      #       - amd64-bionic-build
       # - armhf-bionic-build:
       #     requires:
       #       - arm64-bionic-build
 
       - continuous-upload:
           requires:
-            - amd64-stretch-build
-            - amd64-bionic-build
-            - amd64-xenial-build
+#            - amd64-stretch-build
+            - arm64-bionic-build
+#            - amd64-xenial-build
 
       - release-upload:
           requires:
-            - amd64-stretch-build
-            - amd64-bionic-build
-            - amd64-xenial-build            
+#            - amd64-stretch-build
+            - arm64-bionic-build
+#            - amd64-xenial-build            
             
 jobs:
   get-orig-source:
@@ -256,7 +286,7 @@ jobs:
       <<: *environment-template-amd64
   arm64-bionic-build: 
     <<: *job-template-cross
-    docker: *docker-base-bionic
+    machine: true
     environment:
       <<: *environment-template-common
       <<: *environment-template-bionic
