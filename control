@@ -24,6 +24,7 @@ Package: libwt-common
 Replaces: witty (<< 3.1.0a-1~), libwt19
 Breaks: witty (<< 3.1.0a-1~), libwt19
 Architecture: all
+Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
  libjs-jquery-jplayer, jquery-jplayer-bluemonday, fonts-font-awesome
 Recommends: libwt50 (= ${binary:Version})
@@ -378,6 +379,7 @@ Provides: witty-doc
 Replaces: witty-doc (<< 3.1.0a-1~)
 Breaks: witty-doc (<< 3.1.0a-1~)
 Architecture: all
+Multi-Arch: foreign
 Depends: ${misc:Depends}
 Suggests: libwt-dev (= ${binary:Version}),
  libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
