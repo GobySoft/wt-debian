@@ -68,7 +68,7 @@ job-template-amd64: &job-template-amd64
           tar xfz ../*.orig.tar.gz --strip-components=1
     - run: &run-nest-deb
         name: Nest debian source into project source
-        command: cp -r /root/debian ${SOURCE_WORKING_DIRECTORY} && rm -rf ${SOURCE_WORKING_DIRECTORY}/debian/.git
+        command: cp -r ${CIRCLE_WORKING_DIRECTORY} ${SOURCE_WORKING_DIRECTORY} && rm -rf ${SOURCE_WORKING_DIRECTORY}/debian/.git
     - run: &run-dch
         name: Generate original source tarball and add changelog entry 
         command: |
@@ -130,20 +130,21 @@ job-template-cross: &job-template-cross
     - run:
         name: Make directories
         command: |
-          sudo mkdir -p /root/deb /root/src
+          mkdir -p ${SOURCE_WORKING_DIRECTORY}
+          sudo mkdir -p /root/deb /root/src          
     - run:
         name: Install required packages
         command: |          
-          sudo apt-get update && sudo apt-get -y install dpatch libwww-perl
+          sudo apt-get update && sudo apt-get -y install dpatch libwww-perl devscripts
+    - run: *run-nest-deb
     - run:
         name: Get original source tarball
         command: |
-          cd .. &&
+          cd ${SOURCE_WORKING_DIRECTORY} &&
           make -f debian/rules get-orig-source &&
           sudo mkdir -p /root/src &&
           sudo mv ../*.orig.tar.gz /root/src
     - run: *run-extract-src
-    - run: *run-nest-deb
     - run: *run-dch
     - run:
         name: Install required packages
