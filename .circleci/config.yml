@@ -14,16 +14,6 @@ environment-template-amd64: &environment-template-amd64
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
   SOURCE_WORKING_DIRECTORY: "/root/package-src"
-
-environment-template-arm64: &environment-template-arm64
-  TARGET_ARCH: "arm64"
-  DEB_BUILD_OPTIONS: "parallel=4 nocheck"
-  SOURCE_WORKING_DIRECTORY: "/home/circleci/package-src"
-  
-environment-template-armhf: &environment-template-armhf
-  TARGET_ARCH: "armhf"
-  DEB_BUILD_OPTIONS: "parallel=4 nocheck"
-  SOURCE_WORKING_DIRECTORY: "/home/circleci/package-src"
   
 environment-template-stretch: &environment-template-stretch
   DISTRO_RELEASE_CODENAME: "stretch"
@@ -119,52 +109,7 @@ job-template-amd64: &job-template-amd64
           - '*.ddeb'
           - '*.changes'
           - '*.buildinfo'
-          - '*.diff.gz'
-  
-job-template-cross: &job-template-cross
-  <<: *job-template-amd64
-  working_directory: /home/circleci/debian
-  steps:
-    - checkout
-    - run: *run-import-gpg
-    - run:
-        name: Make directories
-        command: |
-          mkdir -p ${SOURCE_WORKING_DIRECTORY}
-          sudo mkdir -p /root/deb /root/src && sudo chown -R circleci /root
-    - run:
-        name: Install required packages
-        command: |          
-          sudo apt-get update && sudo apt-get -y install dpatch libwww-perl devscripts ubuntu-dev-tools qemu-user-static
-    - run: *run-nest-deb
-    - run:
-        name: Get original source tarball
-        command: |
-          cd ${SOURCE_WORKING_DIRECTORY} &&
-          make -f debian/rules get-orig-source &&
-          sudo mkdir -p /root/src &&
-          sudo mv ../*.orig.tar.gz /root/src
-    - run: *run-extract-src
-    - run: *run-dch
-    - run: &run-build-src-pkg
-        name: Build the Debian source package 
-        command: |
-          cd ${SOURCE_WORKING_DIRECTORY} &&
-          export DPKG_BUILDPACKAGE_BUILD_TYPE="-S"
-          CONFIG_SITE=/etc/dpkg-cross/cross-config.${TARGET_ARCH} && dpkg-buildpackage -k19478082E2F8D3FE -a${TARGET_ARCH} ${DPKG_BUILDPACKAGE_BUILD_TYPE}
-    - run: &run-setup-pbuilder
-        name: Create pbuilder chroot
-        command: |
-          pbuilder-dist ${DISTRO_RELEASE_CODENAME} ${TARGET_ARCH} create
-    - run: &run-build-pbuilder
-        name: Build the package
-        command: |
-          cd ${SOURCE_WORKING_DIRECTORY} &&
-          pbuilder-dist ${DISTRO_RELEASE_CODENAME} ${TARGET_ARCH} build ../*.dsc --buildresult /root/deb
-    - run: *run-store-for-artifacts
-    - store_artifacts: *store
-    - run: *remove-orig-source
-    - persist_to_workspace: *persist-debs
+          - '*.diff.gz'  
 
 # base upload off Bionic build
 job-template-upload: &job-template-upload
@@ -177,47 +122,31 @@ workflows:
   version: 2
   commit:
     jobs:
-#      - get-orig-source
+      - get-orig-source
           
-#      - amd64-stretch-build:
-#          requires:
-#            - get-orig-source
-      # - arm64-stretch-build:
-      #     requires:
-      #       - amd64-stretch-build
-      # - armhf-stretch-build:
-      #     requires:
-      #       - arm64-stretch-build
+      - amd64-stretch-build:
+          requires:
+            - get-orig-source
             
-#      - amd64-xenial-build:
-#          requires:
-#            - get-orig-source
-      - arm64-xenial-build
-      #     requires:
-      #       - amd64-xenial-build
-      # - armhf-xenial-build:
-      #     requires:
-      #       - arm64-xenial-build
+      - amd64-xenial-build:
+          requires:
+            - get-orig-source
             
-#      - amd64-bionic-build:
-#          requires:
-#            - get-orig-source
-#      - arm64-bionic-build
-      # - armhf-bionic-build:
-      #     requires:
-      #       - arm64-bionic-build
+      - amd64-bionic-build:
+          requires:
+            - get-orig-source
 
       - continuous-upload:
           requires:
-#            - amd64-stretch-build
-#            - arm64-bionic-build
-            - arm64-xenial-build
+            - amd64-stretch-build
+            - amd64-bionic-build
+            - amd64-xenial-build
 
       - release-upload:
           requires:
-#            - amd64-stretch-build
-#            - arm64-bionic-build
-            - arm64-xenial-build            
+            - amd64-stretch-build
+            - amd64-bionic-build
+            - amd64-xenial-build            
             
 jobs:
   get-orig-source:
@@ -254,20 +183,6 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-stretch
       <<: *environment-template-amd64
-  arm64-stretch-build: 
-    <<: *job-template-cross
-    docker: *docker-base-stretch
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-stretch
-      <<: *environment-template-arm64
-  armhf-stretch-build: 
-    <<: *job-template-cross
-    docker: *docker-base-stretch
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-stretch
-      <<: *environment-template-armhf
   amd64-xenial-build:
     <<: *job-template-amd64
     docker: *docker-base-xenial
@@ -275,20 +190,6 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-xenial
       <<: *environment-template-amd64
-  arm64-xenial-build: 
-    <<: *job-template-cross
-    machine: true
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-xenial
-      <<: *environment-template-arm64
-  armhf-xenial-build: 
-    <<: *job-template-cross
-    docker: *docker-base-xenial
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-xenial
-      <<: *environment-template-armhf
   amd64-bionic-build:
     <<: *job-template-amd64
     docker: *docker-base-bionic
@@ -296,20 +197,6 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-bionic
       <<: *environment-template-amd64
-  arm64-bionic-build: 
-    <<: *job-template-cross
-    machine: true
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-bionic
-      <<: *environment-template-arm64
-  armhf-bionic-build: 
-    <<: *job-template-cross
-    docker: *docker-base-bionic
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-bionic
-      <<: *environment-template-armhf
   continuous-upload:
     <<: *job-template-upload
     environment:
