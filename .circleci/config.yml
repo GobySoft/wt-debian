@@ -131,7 +131,7 @@ job-template-cross: &job-template-cross
         name: Make directories
         command: |
           mkdir -p ${SOURCE_WORKING_DIRECTORY}
-          sudo mkdir -p /root/deb /root/src          
+          sudo mkdir -p /root/deb /root/src && sudo chown -R circleci /root
     - run:
         name: Install required packages
         command: |          
