@@ -277,7 +277,7 @@ jobs:
       <<: *environment-template-amd64
   arm64-xenial-build: 
     <<: *job-template-cross
-    docker: *docker-base-xenial
+    machine: true
     environment:
       <<: *environment-template-common
       <<: *environment-template-xenial
