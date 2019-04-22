@@ -12,8 +12,7 @@ Build-Depends: debhelper (>= 9), dpatch, libfcgi-dev, zlib1g-dev,
  libpango1.0-dev, python-pygments, firebird-dev, libjs-jquery-jplayer, 
  jquery-jplayer-bluemonday, libmysqlclient-dev | default-libmysqlclient-dev, fonts-font-awesome,
  libglew-dev (>= 1.10), libqt4-dev, 
- yui-compressor [!amd64 !armel !armhf !i386 !kfreebsd-amd64 !kfreebsd-i386 !mipsel],
- node-uglify [amd64 armel armhf i386 kfreebsd-amd64 kfreebsd-i386 mipsel]
+ node-uglify
 Standards-Version: 3.9.8.0
 Section: libdevel
 Vcs-Git: https://anonscm.debian.org/git/pkg-witty/pkg-witty.git
