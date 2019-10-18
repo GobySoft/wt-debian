@@ -179,7 +179,7 @@ build-resources:
 	touch $@
 
 get-orig-source:
-	uscan --verbose || true
+	uscan --verbose -dd
 
 clean: unpatch
 	rm -rf build-static
