@@ -1,3 +1,9 @@
+witty (3.3.12+dfsg-2~ubuntu18.04.1) bionic; urgency=medium
+
+  * New upstream release
+
+ -- Toby Schneider <toby@gobysoft.org>  Fri, 19 Apr 2019 17:48:42 -0400
+
 witty (3.3.11+dfsg-5~ubuntu18.04.1) bionic; urgency=medium
 
   * Add pthread link for libwttest

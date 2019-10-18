@@ -19,6 +19,10 @@ environment-template-stretch: &environment-template-stretch
   DISTRO_RELEASE_CODENAME: "stretch"
   DISTRO_RELEASE_VERSION: "debian9"
 
+environment-template-buster: &environment-template-buster
+  DISTRO_RELEASE_CODENAME: "buster"
+  DISTRO_RELEASE_VERSION: "debian10"
+  
 environment-template-xenial: &environment-template-xenial
   DISTRO_RELEASE_CODENAME: "xenial"
   DISTRO_RELEASE_VERSION: "ubuntu16.04"
@@ -31,6 +35,9 @@ environment-template-bionic: &environment-template-bionic
 docker-base-stretch: &docker-base-stretch
   - image: gobysoft/debian-build-base:9.1
 
+docker-base-buster: &docker-base-buster
+  - image: gobysoft/debian-build-base:10.1
+    
 docker-base-xenial: &docker-base-xenial
   - image: gobysoft/ubuntu-build-base:16.04.1
 
@@ -65,7 +72,7 @@ job-template-amd64: &job-template-amd64
           cd ${SOURCE_WORKING_DIRECTORY} &&
           export NEWVERSION="$(echo ../*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
           COMMENT="Autobuild for version ${NEWVERSION}" &&
-          dch --newversion=${NEWVERSION}-4~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
+          dch --newversion=${NEWVERSION}-2~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
     - run: &run-install-build-deps
         name: Install build dependencies
         command: |
@@ -127,6 +134,10 @@ workflows:
       - amd64-stretch-build:
           requires:
             - get-orig-source
+
+      - amd64-buster-build:
+          requires:
+            - get-orig-source
             
       - amd64-xenial-build:
           requires:
@@ -139,12 +150,14 @@ workflows:
       - continuous-upload:
           requires:
             - amd64-stretch-build
+            - amd64-buster-build
             - amd64-bionic-build
             - amd64-xenial-build
 
       - release-upload:
           requires:
             - amd64-stretch-build
+            - amd64-buster-build
             - amd64-bionic-build
             - amd64-xenial-build            
             
@@ -182,6 +195,13 @@ jobs:
     environment:
       <<: *environment-template-common
       <<: *environment-template-stretch
+      <<: *environment-template-amd64
+  amd64-buster-build:
+    <<: *job-template-amd64
+    docker: *docker-base-buster
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-buster
       <<: *environment-template-amd64
   amd64-xenial-build:
     <<: *job-template-amd64
