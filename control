@@ -9,8 +9,7 @@ Build-Depends: debhelper (>= 9), dpatch, libfcgi-dev, zlib1g-dev,
  libboost-random-dev (>= 1.36.0), libssl-dev, libsqlite3-dev, libpq-dev, 
  doxygen, graphviz, asciidoc, source-highlight (>= 2.5-1~ ), libhpdf-dev,
  libgraphicsmagick1-dev, lsb-release, libjs-jquery,
- libpango1.0-dev, python-pygments, firebird-dev, libjs-jquery-jplayer, 
- jquery-jplayer-bluemonday, libmysqlclient-dev | default-libmysqlclient-dev, fonts-font-awesome,
+ libpango1.0-dev, python-pygments, firebird-dev, libmysqlclient-dev | default-libmysqlclient-dev, fonts-font-awesome,
  libglew-dev (>= 1.10), libqt4-dev, 
  node-uglify
 Standards-Version: 3.9.8.0
@@ -24,8 +23,7 @@ Replaces: witty (<< 3.1.0a-1~), libwt19
 Breaks: witty (<< 3.1.0a-1~), libwt19
 Architecture: all
 Multi-Arch: foreign
-Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
- libjs-jquery-jplayer, jquery-jplayer-bluemonday, fonts-font-awesome
+Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends}, fonts-font-awesome
 Recommends: libwt50 (= ${binary:Version})
 Description: C++ library and application server for web applications [common]
  Wt (pronounced 'witty') is a C++ library and application server for

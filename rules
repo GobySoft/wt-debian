@@ -160,10 +160,7 @@ build-stamp: build-static/Makefile build-shared/Makefile
 
 build-resources:
 	cp /usr/share/asciidoc/javascripts/asciidoc.js doc/tutorial/
-	(cd src/js; mv WFileDropWidget_worker.min.js /tmp;
-	for I in *.js; do $(MINIFIER) $(MINIFIER_FLAGS) $$I > `basename $$I .js`.min.js;
-	mv /tmp/WFileDropWidget_worker.min.js . 
-	done)
+	(cd src/js; mv WFileDropWidget_worker.min.js /tmp; for I in *.js; do $(MINIFIER) $(MINIFIER_FLAGS) $$I > `basename $$I .js`.min.js; done; mv /tmp/WFileDropWidget_worker.min.js .)
 	cd src/web/skeleton && $(MINIFIER) $(MINIFIER_FLAGS) Boot.js > Boot.min.js
 	cd src/web/skeleton && $(MINIFIER) $(MINIFIER_FLAGS) Wt.js > Wt.min.js
 	#mtasc -main -swf resources/WtSoundManager.swf \
