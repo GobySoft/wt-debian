@@ -7,7 +7,7 @@
 
 include /usr/share/dpatch/dpatch.make
 
-version=3.3.11
+version=3.3.12
 major=3
 
 ### Hardening
