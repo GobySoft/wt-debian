@@ -1,3 +1,9 @@
+witty (3.3.12+dfsg-2~ubuntu18.04.2) bionic; urgency=medium
+
+  * Remove swftools, mv WFileDropWidget_worker.min.js out of the way while minifying
+
+ -- Toby Schneider <toby@gobysoft.org>  Fri, 18 Oct 2019 16:12:29 -0400
+
 witty (3.3.12+dfsg-2~ubuntu18.04.1) bionic; urgency=medium
 
   * New upstream release
