@@ -18,8 +18,8 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 # missing (hardening) flags. dpkg_buildflags is necessary because $(shell ..)
 # doesn't use local environment variables. (bug #665324)
 dpkg_buildflags = DEB_BUILD_MAINT_OPTIONS=$(DEB_BUILD_MAINT_OPTIONS) dpkg-buildflags
-export DEB_CFLAGS_MAINT_APPEND   := -pipe -Wall $(shell $(dpkg_buildflags) --get CPPFLAGS)
-export DEB_CXXFLAGS_MAINT_APPEND := -pipe -Wall $(shell $(dpkg_buildflags) --get CPPFLAGS)
+export DEB_CFLAGS_MAINT_APPEND   := -pipe -Wall $(shell $(dpkg_buildflags) --get CPPFLAGS) -isystem /usr/include/harfbuzz
+export DEB_CXXFLAGS_MAINT_APPEND := -pipe -Wall $(shell $(dpkg_buildflags) --get CPPFLAGS) -isystem /usr/include/harfbuzz
 export DEB_LDFLAGS_MAINT_APPEND  := -Wl,-z,defs -Wl,--as-needed
 
 
