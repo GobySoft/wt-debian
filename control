@@ -2,16 +2,15 @@ Source: witty
 Priority: extra
 Maintainer: Pau Garcia i Quiles <pgquiles@elpauer.org>
 Build-Depends: debhelper (>= 9), dpatch, libfcgi-dev, zlib1g-dev,
- libboost-dev (>= 1.36.0), cmake,
- libboost-date-time-dev (>= 1.36.0), libboost-filesystem-dev (>= 1.36.0), 
- libboost-signals-dev (>= 1.36.0),libboost-regex-dev (>= 1.36.0),
- libboost-program-options-dev (>= 1.36.0), libboost-thread-dev (>= 1.36.0), 
- libboost-random-dev (>= 1.36.0), libssl-dev, libsqlite3-dev, libpq-dev, 
+ libboost-dev (>= 1.54.0), cmake,
+ libboost-date-time-dev (>= 1.54.0), libboost-filesystem-dev (>= 1.54.0), 
+ libboost-regex-dev (>= 1.54.0),
+ libboost-program-options-dev (>= 1.54.0), libboost-thread-dev (>= 1.54.0), 
+ libboost-random-dev (>= 1.54.0), libssl-dev, libsqlite3-dev, libpq-dev, 
  doxygen, graphviz, asciidoc, source-highlight (>= 2.5-1~ ), libhpdf-dev,
  libgraphicsmagick1-dev, lsb-release, libjs-jquery,
  libpango1.0-dev, python-pygments, firebird-dev, libmysqlclient-dev | default-libmysqlclient-dev, fonts-font-awesome,
- libglew-dev (>= 1.10), libqt4-dev, 
- node-uglify
+ libglew-dev (>= 1.10), node-uglify
 Standards-Version: 3.9.8.0
 Section: libdevel
 Vcs-Git: https://anonscm.debian.org/git/pkg-witty/pkg-witty.git
@@ -58,10 +57,9 @@ Breaks: witty-dev (<< 3.1.0a-1~)
 Architecture: any
 Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends},
  libwt50 (= ${binary:Version}),
- libboost-dev (>= 1.36.0), libboost-date-time-dev (>= 1.36.0),
- libssl-dev, libfcgi-dev, libboost-filesystem-dev (>= 1.36.0),
- libboost-regex-dev (>=1.36.0),
- libboost-signals-dev (>= 1.36.0), libboost-thread-dev (>= 1.36.0)
+ libboost-dev (>= 1.54.0), libboost-date-time-dev (>= 1.54.0),
+ libssl-dev, libfcgi-dev, libboost-filesystem-dev (>= 1.54.0),
+ libboost-regex-dev (>=1.54.0), libboost-thread-dev (>= 1.54.0)
 Recommends: libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (= ${binary:Version})
 Description: C++ library and application server for web applications [development]
@@ -381,7 +379,7 @@ Depends: ${misc:Depends}
 Suggests: libwt-dev (= ${binary:Version}),
  libwthttp-dev (= ${binary:Version}) | libwtfcgi-dev (= ${binary:Version}) |
  libwttest-dev (=${binary:Version}), libwtext-dev (= ${binary:Version}), 
- libwtdbo-dev (= ${binary:Version}), libboost-test-dev (>= 1.36.0), libmysql++-dev, witty-examples
+ libwtdbo-dev (= ${binary:Version}), libboost-test-dev (>= 1.54.0), libmysql++-dev, witty-examples
 Recommends: doc-base
 Description: C++ library and application server for web applications [doc]
  Wt (pronounced 'witty') is a C++ library and application server for
@@ -393,7 +391,7 @@ Description: C++ library and application server for web applications [doc]
 Package: witty-examples
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libwthttp50, libwtext50,
- libwtdbosqlite50, libboost-program-options-dev, libqt4-dev
+ libwtdbosqlite50, libboost-program-options-dev
 Suggests: libwt-doc, witty-dev
 Description: C++ library for webapps [examples]
  Wt (pronounced 'witty') is a C++ library and application server for

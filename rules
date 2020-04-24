@@ -108,7 +108,8 @@ build-static/Makefile: build-resources patch-stamp
 				-DINSTALL_EXAMPLES:BOOL=OFF \
 				-DINSTALL_FINDWT_CMAKE_FILE:BOOL=OFF \
 				-DWEBUSER:STRING=www-data \
-				-DWEBGROUP:STRING=www-data
+				-DWEBGROUP:STRING=www-data \
+				-DWT_SIGNALS_IMPLEMENTATION=boost.signals2
 
 build-shared/Makefile: build-resources patch-stamp
 	mkdir -p build-shared
@@ -139,7 +140,9 @@ build-shared/Makefile: build-resources patch-stamp
 				-DINSTALL_FINDWT_CMAKE_FILE:BOOL=OFF \
 				-DFORCE_INSTALL_WTCONFIG:BOOL=ON \
 				-DWEBUSER:STRING=www-data \
-				-DWEBGROUP:STRING=www-data
+				-DWEBGROUP:STRING=www-data \
+				-DWT_SIGNALS_IMPLEMENTATION=boost.signals2
+
 
 build: build-stamp
 
