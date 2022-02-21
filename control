@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 9), dpatch, libfcgi-dev, zlib1g-dev,
  libboost-random-dev (>= 1.54.0), libssl-dev, libsqlite3-dev, libpq-dev, 
  doxygen, graphviz, asciidoc, source-highlight (>= 2.5-1~ ), libhpdf-dev,
  libgraphicsmagick1-dev, lsb-release, libjs-jquery,
- libpango1.0-dev, python-pygments, firebird-dev, libmysqlclient-dev | default-libmysqlclient-dev, fonts-font-awesome,
+ libpango1.0-dev, python-pygments | python3-pygments, firebird-dev, libmysqlclient-dev | default-libmysqlclient-dev, fonts-font-awesome,
  libglew-dev (>= 1.10), node-uglify
 Standards-Version: 3.9.8.0
 Section: libdevel
