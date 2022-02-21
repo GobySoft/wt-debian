@@ -208,6 +208,7 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-buster
       <<: *environment-template-amd64
+  amd64-bullseye-build:
     <<: *job-template-amd64
     docker: *docker-base-bullseye
     environment:
