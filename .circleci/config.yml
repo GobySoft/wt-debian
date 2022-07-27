@@ -65,10 +65,7 @@ docker-base-focal: &docker-base-focal
 
 docker-base-jammy: &docker-base-jammy
   - image: gobysoft/ubuntu-build-base:22.04.1
-
-docker-arm-jammy: &docker-arm-jammy
-  - image: gobysoft/ubuntu-build-arm64-native:22.04.1
-
+   
     
 ## Pre-declare job templates
 job-template-amd64: &job-template-amd64
@@ -142,7 +139,27 @@ job-template-amd64: &job-template-amd64
 
 job-template-arm: &job-template-arm
   <<: *job-template-amd64
+  machine:
+    image: ubuntu-2004:current
   resource_class: arm.medium
+  steps:
+    - checkout
+    - run:
+        name: Update apt packages
+        command: apt-get update && apt-get dist-upgrade -y && apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
+    - run: *run-update-apt
+    - run: *run-import-gpg
+    - attach-workspace: *attach-src-workspace
+    - run: *run-extract-src
+    - run: *run-nest-deb
+    - run: *run-dch
+    - run: *run-install-build-deps
+    - run: *run-build-pkg
+    - run: *run-store-next-build
+    - run: *run-store-for-artifacts
+    - store_artifacts: *store
+    - run: *remove-orig-source
+    - persist_to_workspace: *persist-debs
           
 # base upload off Bionic build
 job-template-upload: &job-template-upload
@@ -263,14 +280,12 @@ jobs:
       <<: *environment-template-amd64
   arm64-jammy-build:
     <<: *job-template-arm
-    docker: *docker-arm-jammy
     environment:
       <<: *environment-template-common
       <<: *environment-template-jammy
       <<: *environment-template-arm64
   armhf-jammy-build:
     <<: *job-template-arm
-    docker: *docker-arm-jammy
     environment:
       <<: *environment-template-common
       <<: *environment-template-jammy
