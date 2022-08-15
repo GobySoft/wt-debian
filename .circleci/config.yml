@@ -150,6 +150,11 @@ job-template-arm: &job-template-arm
     - run:
         name: Update apt packages
         command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y && $SUDO apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
+    - run:
+        name: Add armhf
+        command: |
+          sudo dpkg --add-architecture armhf
+          sudo sed -i 's/deb /deb [arch=arm64,armhf] /' /etc/apt/sources.list
     - run: *run-update-apt
     - run: *run-import-gpg
     - attach-workspace: *attach-src-workspace
