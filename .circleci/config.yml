@@ -7,7 +7,7 @@ environment-template-common: &environment-template-common
   DEBEMAIL: "toby@gobysoft.org"
   QUILT_PATCHES: debian/patches
   QUILT_REFRESH_ARGS: "-p ab --no-timestamps --no-index --strip-trailing-whitespace"
-
+  
 environment-template-amd64: &environment-template-amd64
   TARGET_ARCH: "amd64"
   DEB_BUILD_OPTIONS: "parallel=4"
@@ -15,18 +15,21 @@ environment-template-amd64: &environment-template-amd64
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-
+  SUDO: ""
+  
 environment-template-arm64: &environment-template-arm64
   TARGET_ARCH: "arm64"
   BUILD_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
+  SUDO: "sudo"
 
 environment-template-armhf: &environment-template-armhf
   TARGET_ARCH: "armhf"
   BUILD_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
+  SUDO: "sudo"
   
 environment-template-buster: &environment-template-buster
   DISTRO_RELEASE_CODENAME: "buster"
@@ -74,7 +77,7 @@ job-template-amd64: &job-template-amd64
     - checkout
     - run: &run-update-apt
         name: Update apt packages
-        command: apt-get update && apt-get dist-upgrade -y
+        command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y
     - run: &run-import-gpg
         name: Import GPG key
         command: echo -e "$GPG_KEY" | gpg --import
@@ -100,7 +103,7 @@ job-template-amd64: &job-template-amd64
         name: Install build dependencies
         command: |
           cd ${SOURCE_WORKING_DIRECTORY} &&
-          mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch ${BUILD_ARCH} -t "apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
+          mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch ${BUILD_ARCH} -t "$SUDO apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
           rm -f ${SOURCE_WORKING_DIRECTORY}/*-build-deps*.*
     - run: &run-build-pkg
         name: Build the Debian package 
@@ -146,7 +149,7 @@ job-template-arm: &job-template-arm
     - checkout
     - run:
         name: Update apt packages
-        command: apt-get update && apt-get dist-upgrade -y && apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
+        command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y && $SUDO apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
     - run: *run-update-apt
     - run: *run-import-gpg
     - attach-workspace: *attach-src-workspace
@@ -228,7 +231,7 @@ jobs:
       - run:
           name: Install required packages
           command: |          
-            apt-get update && apt-get -y install dpatch libwww-perl
+            $SUDO apt-get update && $SUDO apt-get -y install dpatch libwww-perl
       - run:
           name: Get original source tarball
           command: |
