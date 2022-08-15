@@ -14,14 +14,14 @@ environment-template-amd64: &environment-template-amd64
   BUILD_ARCH: "amd64"  
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
-  SOURCE_WORKING_DIRECTORY: "/opt/package-src"
+  SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
   SUDO: ""
   
 environment-template-arm64: &environment-template-arm64
   TARGET_ARCH: "arm64"
   BUILD_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4"
-  SOURCE_WORKING_DIRECTORY: "/opt/package-src"
+  SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
   SUDO: "sudo"
 
 environment-template-buster: &environment-template-buster
@@ -65,7 +65,7 @@ docker-base-jammy: &docker-base-jammy
     
 ## Pre-declare job templates
 job-template-amd64: &job-template-amd64
-  working_directory: /opt/debian
+  working_directory: /tmp/debian
   steps:
     - checkout
     - run: &run-update-apt
@@ -75,11 +75,11 @@ job-template-amd64: &job-template-amd64
         name: Import GPG key
         command: echo -e "$GPG_KEY" | gpg --import
     - attach-workspace: &attach-src-workspace
-        at: /opt/src
+        at: /tmp/src
     - run: &run-extract-src
         name: Extract the original source tarball
         command: |
-          cp /opt/src/*.orig.tar.gz ${CIRCLE_WORKING_DIRECTORY}/.. &&
+          cp /tmp/src/*.orig.tar.gz ${CIRCLE_WORKING_DIRECTORY}/.. &&
           mkdir -p ${SOURCE_WORKING_DIRECTORY} && cd ${SOURCE_WORKING_DIRECTORY} &&
           tar xfz ../*.orig.tar.gz --strip-components=1
     - run: &run-nest-deb
@@ -110,20 +110,20 @@ job-template-amd64: &job-template-amd64
         name: Store deb files for next build
         command: |
           cd ${SOURCE_WORKING_DIRECTORY} &&
-          mkdir -p /opt/deb &&
-          find .. -maxdepth 1 -type f -exec cp {}  /opt/deb \; &&
-          rm -f /opt/deb/*-build-deps*.deb
+          mkdir -p /tmp/output &&
+          find .. -maxdepth 1 -type f -exec cp {}  /tmp/output \; &&
+          rm -f /tmp/output/*-build-deps*.deb
     - run: &run-store-for-artifacts
         name: Store deb files for storing artifacts
-        command: mkdir -p /opt/deb && cp /opt/deb/* /opt/deb
+        command: mkdir -p /tmp/deb && cp /tmp/output/* /tmp/deb
     - store_artifacts: &store
-        path: /opt/deb
+        path: /tmp/deb
     - run: &remove-orig-source
         name: Remove original source file to avoid conflicts in merging
         command: |        
-          rm -f /opt/deb/*.orig.tar.gz || true
+          rm -f /tmp/deb/*.orig.tar.gz || true
     - persist_to_workspace: &persist-debs
-        root: /opt/deb
+        root: /tmp/deb
         paths:
           - '*.dsc'
           - '*.tar.xz'
@@ -139,11 +139,6 @@ job-template-arm: &job-template-arm
     image: ubuntu-2004:current
   resource_class: arm.medium
   steps:
-    - run:
-        name: chown /opt
-        command: |
-          NONROOT=$(whoami)
-          $SUDO chown -R ${NONROOT} /opt
     - checkout
     - run:
         name: Update apt packages
@@ -230,12 +225,12 @@ jobs:
           command: |
             cd .. &&
             make -f debian/rules get-orig-source &&
-            mkdir -p /opt/src &&
-            mv ../*.orig.tar.gz /opt/src
+            mkdir -p /tmp/src &&
+            mv ../*.orig.tar.gz /tmp/src
       - store_artifacts:
-          path: /opt/src
+          path: /tmp/src
       - persist_to_workspace:
-          root: /opt/src
+          root: /tmp/src
           paths:
             - '*.tar.gz'
             
@@ -295,17 +290,17 @@ jobs:
             - "cd:15:c9:43:48:20:c9:56:58:9e:91:01:74:0d:fe:d2"
       - run: *run-import-gpg
       - attach-workspace:
-          at: /opt/deb
+          at: /tmp/deb
       - attach-workspace: *attach-src-workspace
       - run:
           name: Move original source into output directory
-          command: mv /opt/src/* /opt/deb
+          command: mv /tmp/src/* /tmp/deb
       - run:
           name: Upload packages to packages.gobysoft.org
           command: |
             echo 'trusted-key A8E48CFF6650A07F6EF2B9AD19478082E2F8D3FE' >> ~/.gnupg/gpg.conf
             echo '|1|HjIjI40ko7XtgqXNK8DNuiVcy4Q=|7PEGcXNRmsj1tzGeRjb9UgWIWwE= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8LmTLyo7inmKCa28F2JZBSpQFT1VrwnFpeV1v6PlQE' >> ~/.ssh/known_hosts
-            for change_file in /opt/deb/*.changes;
+            for change_file in /tmp/deb/*.changes;
             do dput -c ${CIRCLE_WORKING_DIRECTORY}/.circleci/dput.cf ${UPLOAD_DESTINATION} $change_file;
             done
           
