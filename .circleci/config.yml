@@ -14,23 +14,16 @@ environment-template-amd64: &environment-template-amd64
   BUILD_ARCH: "amd64"  
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
-  SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
+  SOURCE_WORKING_DIRECTORY: "/opt/package-src"
   SUDO: ""
   
 environment-template-arm64: &environment-template-arm64
   TARGET_ARCH: "arm64"
   BUILD_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4"
-  SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
+  SOURCE_WORKING_DIRECTORY: "/opt/package-src"
   SUDO: "sudo"
 
-environment-template-armhf: &environment-template-armhf
-  TARGET_ARCH: "armhf"
-  BUILD_ARCH: "arm64"
-  DEB_BUILD_OPTIONS: "parallel=4"
-  SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-  SUDO: "sudo"
-  
 environment-template-buster: &environment-template-buster
   DISTRO_RELEASE_CODENAME: "buster"
   DISTRO_RELEASE_VERSION: "debian10"
@@ -72,7 +65,7 @@ docker-base-jammy: &docker-base-jammy
     
 ## Pre-declare job templates
 job-template-amd64: &job-template-amd64
-  working_directory: /tmp/debian
+  working_directory: /opt/debian
   steps:
     - checkout
     - run: &run-update-apt
@@ -82,11 +75,11 @@ job-template-amd64: &job-template-amd64
         name: Import GPG key
         command: echo -e "$GPG_KEY" | gpg --import
     - attach-workspace: &attach-src-workspace
-        at: /tmp/src
+        at: /opt/src
     - run: &run-extract-src
         name: Extract the original source tarball
         command: |
-          cp /tmp/src/*.orig.tar.gz ${CIRCLE_WORKING_DIRECTORY}/.. &&
+          cp /opt/src/*.orig.tar.gz ${CIRCLE_WORKING_DIRECTORY}/.. &&
           mkdir -p ${SOURCE_WORKING_DIRECTORY} && cd ${SOURCE_WORKING_DIRECTORY} &&
           tar xfz ../*.orig.tar.gz --strip-components=1
     - run: &run-nest-deb
@@ -117,20 +110,20 @@ job-template-amd64: &job-template-amd64
         name: Store deb files for next build
         command: |
           cd ${SOURCE_WORKING_DIRECTORY} &&
-          mkdir -p /tmp/deb &&
-          find .. -maxdepth 1 -type f -exec cp {}  /tmp/deb \; &&
-          rm -f /tmp/deb/*-build-deps*.deb
+          mkdir -p /opt/deb &&
+          find .. -maxdepth 1 -type f -exec cp {}  /opt/deb \; &&
+          rm -f /opt/deb/*-build-deps*.deb
     - run: &run-store-for-artifacts
         name: Store deb files for storing artifacts
-        command: mkdir -p /tmp/deb && cp /tmp/deb/* /tmp/deb
+        command: mkdir -p /opt/deb && cp /opt/deb/* /opt/deb
     - store_artifacts: &store
-        path: /tmp/deb
+        path: /opt/deb
     - run: &remove-orig-source
         name: Remove original source file to avoid conflicts in merging
         command: |        
-          rm -f /tmp/deb/*.orig.tar.gz || true
+          rm -f /opt/deb/*.orig.tar.gz || true
     - persist_to_workspace: &persist-debs
-        root: /tmp/deb
+        root: /opt/deb
         paths:
           - '*.dsc'
           - '*.tar.xz'
@@ -148,13 +141,13 @@ job-template-arm: &job-template-arm
   steps:
     - checkout
     - run:
+        name: chown /opt
+        command: |
+          NONROOT=$(whoami)
+          $SUDO chown -R ${NONROOT} /opt
+    - run:
         name: Update apt packages
         command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y && $SUDO apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
-    - run:
-        name: Add armhf
-        command: |
-          sudo dpkg --add-architecture armhf
-          sudo sed -i 's/deb /deb [arch=arm64,armhf] /' /etc/apt/sources.list
     - run: *run-update-apt
     - run: *run-import-gpg
     - attach-workspace: *attach-src-workspace
@@ -206,10 +199,6 @@ workflows:
           requires:
             - get-orig-source
 
-      - armhf-jammy-build:
-          requires:
-            - get-orig-source
-            
       - continuous-upload:
           requires:
             - amd64-buster-build
@@ -218,7 +207,6 @@ workflows:
             - amd64-focal-build
             - amd64-jammy-build
             - arm64-jammy-build
-            - armhf-jammy-build
 
       - release-upload:
           requires:
@@ -242,12 +230,12 @@ jobs:
           command: |
             cd .. &&
             make -f debian/rules get-orig-source &&
-            mkdir -p /tmp/src &&
-            mv ../*.orig.tar.gz /tmp/src
+            mkdir -p /opt/src &&
+            mv ../*.orig.tar.gz /opt/src
       - store_artifacts:
-          path: /tmp/src
+          path: /opt/src
       - persist_to_workspace:
-          root: /tmp/src
+          root: /opt/src
           paths:
             - '*.tar.gz'
             
@@ -292,12 +280,6 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-jammy
       <<: *environment-template-arm64
-  armhf-jammy-build:
-    <<: *job-template-arm
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-jammy
-      <<: *environment-template-armhf
 
   continuous-upload:
     <<: *job-template-upload
@@ -313,17 +295,17 @@ jobs:
             - "cd:15:c9:43:48:20:c9:56:58:9e:91:01:74:0d:fe:d2"
       - run: *run-import-gpg
       - attach-workspace:
-          at: /tmp/deb
+          at: /opt/deb
       - attach-workspace: *attach-src-workspace
       - run:
           name: Move original source into output directory
-          command: mv /tmp/src/* /tmp/deb
+          command: mv /opt/src/* /opt/deb
       - run:
           name: Upload packages to packages.gobysoft.org
           command: |
             echo 'trusted-key A8E48CFF6650A07F6EF2B9AD19478082E2F8D3FE' >> ~/.gnupg/gpg.conf
             echo '|1|HjIjI40ko7XtgqXNK8DNuiVcy4Q=|7PEGcXNRmsj1tzGeRjb9UgWIWwE= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8LmTLyo7inmKCa28F2JZBSpQFT1VrwnFpeV1v6PlQE' >> ~/.ssh/known_hosts
-            for change_file in /tmp/deb/*.changes;
+            for change_file in /opt/deb/*.changes;
             do dput -c ${CIRCLE_WORKING_DIRECTORY}/.circleci/dput.cf ${UPLOAD_DESTINATION} $change_file;
             done
           
