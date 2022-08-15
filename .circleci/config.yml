@@ -139,12 +139,12 @@ job-template-arm: &job-template-arm
     image: ubuntu-2004:current
   resource_class: arm.medium
   steps:
-    - checkout
     - run:
         name: chown /opt
         command: |
           NONROOT=$(whoami)
           $SUDO chown -R ${NONROOT} /opt
+    - checkout
     - run:
         name: Update apt packages
         command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y && $SUDO apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
