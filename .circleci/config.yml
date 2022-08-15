@@ -103,7 +103,7 @@ job-template-amd64: &job-template-amd64
         name: Install build dependencies
         command: |
           cd ${SOURCE_WORKING_DIRECTORY} &&
-          mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch ${BUILD_ARCH} -t "$SUDO apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
+          $SUDO mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch ${BUILD_ARCH} -t "$SUDO apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
           rm -f ${SOURCE_WORKING_DIRECTORY}/*-build-deps*.*
     - run: &run-build-pkg
         name: Build the Debian package 
