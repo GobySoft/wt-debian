@@ -66,6 +66,7 @@ docker-base-jammy: &docker-base-jammy
 ## Pre-declare job templates
 job-template-amd64: &job-template-amd64
   working_directory: /tmp/debian
+  resource_class: large
   steps:
     - checkout
     - run: &run-update-apt
@@ -137,7 +138,7 @@ job-template-arm: &job-template-arm
   <<: *job-template-amd64
   machine:
     image: ubuntu-2004:current
-  resource_class: arm.medium
+  resource_class: arm.large
   steps:
     - checkout
     - run:
