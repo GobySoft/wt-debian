@@ -15,46 +15,54 @@ environment-template-amd64: &environment-template-amd64
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-  DOCKER_TAG: "ubuntu-build-base"
+  DOCKER_TAG: "build-base"
+  DOCKER_PLATFORM: "linux/amd64"
   
 environment-template-arm64: &environment-template-arm64
   TARGET_ARCH: "arm64"
   BUILD_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-  DOCKER_TAG: "ubuntu-build-arm64-native"
+  DOCKER_TAG: "build-arm64-native"
+  DOCKER_PLATFORM: "linux/arm64"
 
 environment-template-armhf: &environment-template-armhf
   TARGET_ARCH: "armhf"
   BUILD_ARCH: "armhf"
   DEB_BUILD_OPTIONS: "parallel=4"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-  DOCKER_TAG: "ubuntu-build-armhf-native"
+  DOCKER_TAG: "build-armhf-native"
+  DOCKER_PLATFORM: "linux/arm/v7"
   
 environment-template-buster: &environment-template-buster
   DISTRO_RELEASE_CODENAME: "buster"
   DISTRO_RELEASE_VERSION: "debian10"
   DOCKER_VERSION: "10.1"
+  DOCKER_DISTRO: "debian"
   
 environment-template-bullseye: &environment-template-bullseye
   DISTRO_RELEASE_CODENAME: "bullseye"
   DISTRO_RELEASE_VERSION: "debian11"
   DOCKER_VERSION: "11.1"
+  DOCKER_DISTRO: "debian"
   
 environment-template-bionic: &environment-template-bionic
   DISTRO_RELEASE_CODENAME: "bionic"
   DISTRO_RELEASE_VERSION: "ubuntu18.04"
   DOCKER_VERSION: "18.04.1"
+  DOCKER_DISTRO: "ubuntu"
   
 environment-template-focal: &environment-template-focal
   DISTRO_RELEASE_CODENAME: "focal"
   DISTRO_RELEASE_VERSION: "ubuntu20.04"
   DOCKER_VERSION: "20.04.1"
+  DOCKER_DISTRO: "ubuntu"
 
 environment-template-jammy: &environment-template-jammy
   DISTRO_RELEASE_CODENAME: "jammy"
   DISTRO_RELEASE_VERSION: "ubuntu22.04"
   DOCKER_VERSION: "22.04.1"  
+  DOCKER_DISTRO: "ubuntu"
   
 ## Pre-declare Docker containers
 docker-base-jammy: &docker-base-jammy
@@ -93,7 +101,7 @@ job-template-amd64: &job-template-amd64
     - run: &run-build-pkg
         name: Build the Debian package in docker
         command: |
-          docker run --env GPG_KEY --env SOURCE_WORKING_DIRECTORY --env TARGET_ARCH --env BUILD_ARCH --env DO_SOURCE_BUILD -v ${SOURCE_WORKING_DIRECTORY}:${SOURCE_WORKING_DIRECTORY} -w ${SOURCE_WORKING_DIRECTORY} -t gobysoft/${DOCKER_TAG}:${DOCKER_VERSION} bash -c "${SOURCE_WORKING_DIRECTORY}/debian/.circleci/build.sh"
+          docker run --platform ${DOCKER_PLATFORM} --env GPG_KEY --env SOURCE_WORKING_DIRECTORY --env TARGET_ARCH --env BUILD_ARCH --env DO_SOURCE_BUILD -v ${SOURCE_WORKING_DIRECTORY}:${SOURCE_WORKING_DIRECTORY} -w ${SOURCE_WORKING_DIRECTORY} -t gobysoft/${DOCKER_DISTRO}-${DOCKER_TAG}:${DOCKER_VERSION} bash -c "${SOURCE_WORKING_DIRECTORY}/debian/.circleci/build.sh"
     - run: &run-store-next-build
         name: Store deb files for next build
         command: |

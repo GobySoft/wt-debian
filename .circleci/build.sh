@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update && apt install dpatch
+apt update && apt -y install dpatch
 
 echo -e "$GPG_KEY" | gpg --import
 
