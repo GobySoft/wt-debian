@@ -71,7 +71,7 @@ job-template-amd64: &job-template-amd64
     - checkout
     - run: &run-install-apt
         name: Install apt packages
-        command: sudo apt-get update sudo apt-get -y --no-install-recommends install git devscripts equivs quilt
+        command: sudo apt-get update && sudo apt-get -y --no-install-recommends install git devscripts equivs quilt
     - attach-workspace: &attach-src-workspace
         at: /tmp/src
     - run: &run-extract-src
