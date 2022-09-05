@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo -e "$GPG_KEY" | gpg --import
+
 cd ${SOURCE_WORKING_DIRECTORY} &&
     mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch ${BUILD_ARCH} -t "apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
     rm -f ${SOURCE_WORKING_DIRECTORY}/*-build-deps*.*
