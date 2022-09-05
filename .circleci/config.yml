@@ -15,50 +15,48 @@ environment-template-amd64: &environment-template-amd64
   # one job only must do the source build for each distro
   DO_SOURCE_BUILD: "true"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-  SUDO: ""
+  DOCKER_TAG: "ubuntu-build-base"
   
 environment-template-arm64: &environment-template-arm64
   TARGET_ARCH: "arm64"
   BUILD_ARCH: "arm64"
   DEB_BUILD_OPTIONS: "parallel=4"
   SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
-  SUDO: "sudo"
+  DOCKER_TAG: "ubuntu-build-arm64-native"
 
+environment-template-armhf: &environment-template-armhf
+  TARGET_ARCH: "armhf"
+  BUILD_ARCH: "armhf"
+  DEB_BUILD_OPTIONS: "parallel=4"
+  SOURCE_WORKING_DIRECTORY: "/tmp/package-src"
+  DOCKER_TAG: "ubuntu-build-armhf-native"
+  
 environment-template-buster: &environment-template-buster
   DISTRO_RELEASE_CODENAME: "buster"
   DISTRO_RELEASE_VERSION: "debian10"
-
+  DOCKER_VERSION: "10.1"
+  
 environment-template-bullseye: &environment-template-bullseye
   DISTRO_RELEASE_CODENAME: "bullseye"
   DISTRO_RELEASE_VERSION: "debian11"
+  DOCKER_VERSION: "11.1"
   
 environment-template-bionic: &environment-template-bionic
   DISTRO_RELEASE_CODENAME: "bionic"
   DISTRO_RELEASE_VERSION: "ubuntu18.04"
+  DOCKER_VERSION: "18.04.1"
   
 environment-template-focal: &environment-template-focal
   DISTRO_RELEASE_CODENAME: "focal"
   DISTRO_RELEASE_VERSION: "ubuntu20.04"
+  DOCKER_VERSION: "20.04.1"
 
 environment-template-jammy: &environment-template-jammy
   DISTRO_RELEASE_CODENAME: "jammy"
   DISTRO_RELEASE_VERSION: "ubuntu22.04"
-
-  
+  DOCKER_VERSION: "22.04.1"  
   
 ## Pre-declare Docker containers
-docker-base-buster: &docker-base-buster
-  - image: gobysoft/debian-build-base:10.1
-
-docker-base-bullseye: &docker-base-bullseye
-  - image: gobysoft/debian-build-base:11.1
-
-docker-base-bionic: &docker-base-bionic
-  - image: gobysoft/ubuntu-build-base:18.04.1
-
-docker-base-focal: &docker-base-focal
-  - image: gobysoft/ubuntu-build-base:20.04.1
-
 docker-base-jammy: &docker-base-jammy
   - image: gobysoft/ubuntu-build-base:22.04.1
    
@@ -66,12 +64,14 @@ docker-base-jammy: &docker-base-jammy
 ## Pre-declare job templates
 job-template-amd64: &job-template-amd64
   working_directory: /tmp/debian
+  machine:
+    image: ubuntu-2004:current
   resource_class: large
   steps:
     - checkout
     - run: &run-update-apt
         name: Update apt packages
-        command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y
+        command: sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput docker.io
     - run: &run-import-gpg
         name: Import GPG key
         command: echo -e "$GPG_KEY" | gpg --import
@@ -92,21 +92,11 @@ job-template-amd64: &job-template-amd64
           cd ${SOURCE_WORKING_DIRECTORY} &&
           export NEWVERSION="$(echo ../*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
           COMMENT="Autobuild for version ${NEWVERSION}" &&
-          dch --newversion=${NEWVERSION}-6~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
-    - run: &run-install-build-deps
-        name: Install build dependencies
-        command: |
-          cd ${SOURCE_WORKING_DIRECTORY} &&
-          $SUDO mk-build-deps -a ${TARGET_ARCH} --host-arch ${TARGET_ARCH} --build-arch ${BUILD_ARCH} -t "$SUDO apt-get -y --no-install-recommends -o Debug::pkgProblemResolver=yes" -i "debian/control" &&
-          rm -f ${SOURCE_WORKING_DIRECTORY}/*-build-deps*.*
+          dch --newversion=${NEWVERSION}-7~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
     - run: &run-build-pkg
-        name: Build the Debian package 
+        name: Build the Debian package in docker
         command: |
-          cd ${SOURCE_WORKING_DIRECTORY} &&
-          export DPKG_BUILDPACKAGE_BUILD_TYPE="-B"
-          # default is to do source and binary build
-          [[ "${DO_SOURCE_BUILD}" == "true" ]] && DPKG_BUILDPACKAGE_BUILD_TYPE=""        
-          CONFIG_SITE=/etc/dpkg-cross/cross-config.${TARGET_ARCH} && dpkg-buildpackage -k19478082E2F8D3FE -a${TARGET_ARCH} ${DPKG_BUILDPACKAGE_BUILD_TYPE}
+          docker run --env SOURCE_WORKING_DIRECTORY --env TARGET_ARCH --env BUILD_ARCH --env DO_SOURCE_BUILD -v ${SOURCE_WORKING_DIRECTORY}:${SOURCE_WORKING_DIRECTORY} -w ${SOURCE_WORKING_DIRECTORY} -t ${DOCKER_TAG}:${DOCKER_VERSION} bash -c "${SOURCE_WORKING_DIRECTORY}/debian/.circleci/build.sh"
     - run: &run-store-next-build
         name: Store deb files for next build
         command: |
@@ -136,21 +126,15 @@ job-template-amd64: &job-template-amd64
 
 job-template-arm: &job-template-arm
   <<: *job-template-amd64
-  machine:
-    image: ubuntu-2004:current
   resource_class: arm.large
   steps:
     - checkout
-    - run:
-        name: Update apt packages
-        command: $SUDO apt-get update && $SUDO apt-get dist-upgrade -y && $SUDO apt-get -y --no-install-recommends install git build-essential ssh cmake gpg gpg-agent devscripts equivs ca-certificates quilt clang clang-tools dput
     - run: *run-update-apt
     - run: *run-import-gpg
     - attach-workspace: *attach-src-workspace
     - run: *run-extract-src
     - run: *run-nest-deb
     - run: *run-dch
-    - run: *run-install-build-deps
     - run: *run-build-pkg
     - run: *run-store-next-build
     - run: *run-store-for-artifacts
@@ -158,10 +142,9 @@ job-template-arm: &job-template-arm
     - run: *remove-orig-source
     - persist_to_workspace: *persist-debs
           
-# base upload off Bionic build
 job-template-upload: &job-template-upload
   <<: *job-template-amd64
-  docker: *docker-base-bionic
+  docker: *docker-base-jammy
   
 ## Begin actual config
 version: 2
@@ -195,6 +178,10 @@ workflows:
           requires:
             - get-orig-source
 
+      - armhf-jammy-build:
+          requires:
+            - get-orig-source
+            
       - continuous-upload:
           requires:
             - amd64-buster-build
@@ -203,6 +190,7 @@ workflows:
             - amd64-focal-build
             - amd64-jammy-build
             - arm64-jammy-build
+            - armhf-jammy-build
 
       - release-upload:
           requires:
@@ -220,7 +208,7 @@ jobs:
       - run:
           name: Install required packages
           command: |          
-            $SUDO apt-get update && $SUDO apt-get -y install dpatch libwww-perl
+            apt-get update && apt-get -y install dpatch libwww-perl
       - run:
           name: Get original source tarball
           command: |
@@ -237,35 +225,30 @@ jobs:
             
   amd64-buster-build:
     <<: *job-template-amd64
-    docker: *docker-base-buster
     environment:
       <<: *environment-template-common
       <<: *environment-template-buster
       <<: *environment-template-amd64
   amd64-bullseye-build:
     <<: *job-template-amd64
-    docker: *docker-base-bullseye
     environment:
       <<: *environment-template-common
       <<: *environment-template-bullseye
       <<: *environment-template-amd64
   amd64-bionic-build:
     <<: *job-template-amd64
-    docker: *docker-base-bionic
     environment:
       <<: *environment-template-common
       <<: *environment-template-bionic
       <<: *environment-template-amd64
   amd64-focal-build:
     <<: *job-template-amd64
-    docker: *docker-base-focal
     environment:
       <<: *environment-template-common
       <<: *environment-template-focal
       <<: *environment-template-amd64
   amd64-jammy-build:
     <<: *job-template-amd64
-    docker: *docker-base-jammy
     environment:
       <<: *environment-template-common
       <<: *environment-template-jammy
@@ -277,6 +260,14 @@ jobs:
       <<: *environment-template-jammy
       <<: *environment-template-arm64
 
+  armhf-jammy-build:
+    <<: *job-template-arm
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-jammy
+      <<: *environment-template-armhf
+
+      
   continuous-upload:
     <<: *job-template-upload
     environment:
