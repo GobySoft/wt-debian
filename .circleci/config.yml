@@ -101,7 +101,7 @@ job-template-amd64: &job-template-amd64
     - run: &run-build-pkg
         name: Build the Debian package in docker
         command: |
-          docker run --platform ${DOCKER_PLATFORM} --env GPG_KEY --env SOURCE_WORKING_DIRECTORY --env TARGET_ARCH --env BUILD_ARCH --env DO_SOURCE_BUILD -v ${SOURCE_WORKING_DIRECTORY}:${SOURCE_WORKING_DIRECTORY} -w ${SOURCE_WORKING_DIRECTORY} -t gobysoft/${DOCKER_DISTRO}-${DOCKER_TAG}:${DOCKER_VERSION} bash -c "${SOURCE_WORKING_DIRECTORY}/debian/.circleci/build.sh"
+          docker run --platform ${DOCKER_PLATFORM} --env GPG_KEY --env SOURCE_WORKING_DIRECTORY --env TARGET_ARCH --env BUILD_ARCH --env DO_SOURCE_BUILD -v /tmp:/tmp -w ${SOURCE_WORKING_DIRECTORY} -t gobysoft/${DOCKER_DISTRO}-${DOCKER_TAG}:${DOCKER_VERSION} bash -c "${SOURCE_WORKING_DIRECTORY}/debian/.circleci/build.sh"
     - run: &run-store-next-build
         name: Store deb files for next build
         command: |
