@@ -80,7 +80,7 @@ endif
 
 CMAKEVERSION:=$(shell cmake --version | grep -o -P \(\\d\\.\\d\) | tr -d '\n')
 
-build-static/Makefile: build-resources patch-stamp
+build-static/Makefile: build-resources patch
 	dh_testdir
 	mkdir -p build-static
 	cd build-static && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
@@ -111,7 +111,7 @@ build-static/Makefile: build-resources patch-stamp
 				-DWEBGROUP:STRING=www-data \
 				-DWT_SIGNALS_IMPLEMENTATION=boost.signals2
 
-build-shared/Makefile: build-resources patch-stamp
+build-shared/Makefile: build-resources patch
 	mkdir -p build-shared
 	cd build-shared && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
                                 -DCMAKE_C_FLAGS="$(CFLAGS)" -DCMAKE_CXX_FLAGS="$(CXXFLAGS)" \
