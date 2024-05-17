@@ -6,9 +6,10 @@
 
 @DPATCH@
 
-diff -rupdN witty-3.3.2+dfsg.orig/cmake/CheckLargeFileSupport.cmake witty-3.3.2+dfsg/cmake/CheckLargeFileSupport.cmake
---- witty-3.3.2+dfsg.orig/cmake/CheckLargeFileSupport.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ witty-3.3.2+dfsg/cmake/CheckLargeFileSupport.cmake	2014-06-16 01:23:49.475330564 +0200
+Index: wt-3.3.12/cmake/CheckLargeFileSupport.cmake
+===================================================================
+--- /dev/null
++++ wt-3.3.12/cmake/CheckLargeFileSupport.cmake
 @@ -0,0 +1,62 @@
 +# - Define macro to check large file support
 +#
@@ -72,9 +73,10 @@ diff -rupdN witty-3.3.2+dfsg.orig/cmake/CheckLargeFileSupport.cmake witty-3.3.2+
 +            endif(FILE64_OK)
 +        endif(NOT FILE64_OK)
 +endmacro(CHECK_LARGE_FILE_SUPPORT)
-diff -rupdN witty-3.3.2+dfsg.orig/cmake/TestFileOffsetBits.c witty-3.3.2+dfsg/cmake/TestFileOffsetBits.c
---- witty-3.3.2+dfsg.orig/cmake/TestFileOffsetBits.c	1970-01-01 01:00:00.000000000 +0100
-+++ witty-3.3.2+dfsg/cmake/TestFileOffsetBits.c	2014-06-16 01:23:49.475330564 +0200
+Index: wt-3.3.12/cmake/TestFileOffsetBits.c
+===================================================================
+--- /dev/null
++++ wt-3.3.12/cmake/TestFileOffsetBits.c
 @@ -0,0 +1,10 @@
 +#include <sys/types.h>
 +
@@ -86,20 +88,21 @@ diff -rupdN witty-3.3.2+dfsg.orig/cmake/TestFileOffsetBits.c witty-3.3.2+dfsg/cm
 +  return 0;
 +}
 +
-diff -rupdN witty-3.3.2+dfsg.orig/CMakeLists.txt witty-3.3.2+dfsg/CMakeLists.txt
---- witty-3.3.2+dfsg.orig/CMakeLists.txt	2014-02-25 23:12:04.000000000 +0100
-+++ witty-3.3.2+dfsg/CMakeLists.txt	2014-06-16 01:26:21.055324142 +0200
-@@ -324,6 +324,7 @@ INCLUDE(cmake/WtFindHaru.txt)
+Index: wt-3.3.12/CMakeLists.txt
+===================================================================
+--- wt-3.3.12.orig/CMakeLists.txt
++++ wt-3.3.12/CMakeLists.txt
+@@ -365,6 +365,7 @@ INCLUDE(cmake/WtFindHaru.txt)
  INCLUDE(cmake/WtFindGm.txt)
  INCLUDE(cmake/WtFindGL.txt)
  INCLUDE(cmake/WtFindSkia.txt)
 +INCLUDE(cmake/CheckLargeFileSupport.cmake)
  
- IF (ENABLE_PANGO)
-   INCLUDE(cmake/WtFindPangoFt2.txt)
-@@ -573,6 +574,21 @@ IF(ENABLE_OPENGL AND GL_FOUND AND WT_HAS
-   SET(HAVE_GL TRUE)
- ENDIF(ENABLE_OPENGL AND GL_FOUND AND WT_HAS_WRASTERIMAGE)
+ IF (ENABLE_UNWIND)
+   INCLUDE(cmake/WtFindUnwind.txt)
+@@ -659,6 +660,21 @@ IF(ENABLE_UNWIND AND UNWIND_FOUND)
+   SET(HAVE_UNWIND ON)
+ ENDIF(ENABLE_UNWIND AND UNWIND_FOUND)
  
 +check_large_file_support()
 +
@@ -119,10 +122,11 @@ diff -rupdN witty-3.3.2+dfsg.orig/CMakeLists.txt witty-3.3.2+dfsg/CMakeLists.txt
  # Compile time constants & make sure our build finds it
  FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Wt)
  SET(WCONFIG_H_PATH ${CMAKE_CURRENT_BINARY_DIR}/Wt/WConfig.h)
-diff -rupdN witty-3.3.2+dfsg.orig/WConfig.h.in witty-3.3.2+dfsg/WConfig.h.in
---- witty-3.3.2+dfsg.orig/WConfig.h.in	2014-02-25 23:12:04.000000000 +0100
-+++ witty-3.3.2+dfsg/WConfig.h.in	2014-06-16 01:23:49.475330564 +0200
-@@ -44,6 +44,15 @@
+Index: wt-3.3.12/WConfig.h.in
+===================================================================
+--- wt-3.3.12.orig/WConfig.h.in
++++ wt-3.3.12/WConfig.h.in
+@@ -45,6 +45,15 @@
  #cmakedefine WT_USE_BOOST_SIGNALS
  #cmakedefine WT_USE_BOOST_SIGNALS2
  

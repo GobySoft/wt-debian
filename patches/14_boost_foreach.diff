@@ -1,0 +1,43 @@
+Index: wt-3.3.12/src/Wt/Auth/Dbo/UserDatabase
+===================================================================
+--- wt-3.3.12.orig/src/Wt/Auth/Dbo/UserDatabase
++++ wt-3.3.12/src/Wt/Auth/Dbo/UserDatabase
+@@ -316,7 +316,7 @@ public:
+         user_->authTokens().find().orderBy("expires").limit(tokens_to_remove);
+       std::vector<Wt::Dbo::ptr<AuthTokenType> > earliest_tokens_v(
+         earliest_tokens.begin(), earliest_tokens.end());
+-      BOOST_FOREACH (Wt::Dbo::ptr<AuthTokenType> token, earliest_tokens_v) {
++      for (Wt::Dbo::ptr<AuthTokenType> token : earliest_tokens_v) {
+         token.remove();
+       }
+     }
+Index: wt-3.3.12/src/Wt/Render/CssParser.C
+===================================================================
+--- wt-3.3.12.orig/src/Wt/Render/CssParser.C
++++ wt-3.3.12/src/Wt/Render/CssParser.C
+@@ -409,7 +409,7 @@ template <typename Iterator>
+ void CssGrammar<Iterator>::setCurrentSelectors
+                                (const std::vector<SelectorImpl>& selectors)
+ {
+-  BOOST_FOREACH(const SelectorImpl& s, selectors)
++  for(const SelectorImpl& s : selectors)
+   {
+     RulesetImpl ruleset;
+     ruleset.selector_ = s;
+@@ -421,14 +421,14 @@ template <typename Iterator>
+ void CssGrammar<Iterator>::addDeclaration(const std::string& property,
+                                           const Term& term)
+ {
+-  BOOST_FOREACH(RulesetImpl& r, currentRuleset_)
++   for(RulesetImpl& r : currentRuleset_)
+     r.block_.properties_.insert(std::make_pair(property, term));
+ }
+ 
+ template <typename Iterator>
+ void CssGrammar<Iterator>::setDeclarationString(const std::string& rawstring)
+ {
+-  BOOST_FOREACH(RulesetImpl& r, currentRuleset_)
++  for(RulesetImpl& r : currentRuleset_)
+     r.block_.declarationString_ = rawstring;
+ }
+ 
