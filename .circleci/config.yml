@@ -226,7 +226,7 @@ workflows:
 jobs:
   get-orig-source:
     <<: *job-template-amd64
-    docker: *docker-base-noble
+    docker: *docker-base-jammy
     environment:
       <<: *environment-template-common
       <<: *environment-template-noble
