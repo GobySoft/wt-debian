@@ -1,0 +1,4 @@
+01_no_debug_postfix.diff
+09_lfs_support.diff
+12_install_wtconfig.diff
+13_fcgi_links.diff

@@ -1,7 +1,7 @@
 Source: witty
 Priority: extra
 Maintainer: Pau Garcia i Quiles <pgquiles@elpauer.org>
-Build-Depends: debhelper (>= 9), dpatch, libfcgi-dev, zlib1g-dev,
+Build-Depends: debhelper (>= 9), quilt (>= 0.40), libfcgi-dev, zlib1g-dev,
  libboost-dev (>= 1.54.0), cmake,
  libboost-date-time-dev (>= 1.54.0), libboost-filesystem-dev (>= 1.54.0), 
  libboost-regex-dev (>= 1.54.0),
